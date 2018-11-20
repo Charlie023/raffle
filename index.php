@@ -75,8 +75,9 @@ if(isset($_POST['stop'])){
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  <script src="plugins/js/jquery.min,js"></script>
+  <script src="plugins/js/underscore-min.js"></script>
+
 </head>
 
 <style>
@@ -86,7 +87,7 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: #006652;
 }
 
 li {
@@ -106,14 +107,30 @@ li a:hover {
 }
 
  footer {
-      background-color: #333;
+      background-color: #003329;
       color: white;
-      padding: 55px;
-      position: fixed;
+      padding: 50px;
+      
       width: 100%;
       height: 10px;
        bottom: 0;
     }
+
+    table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
 
 </style>
 
@@ -127,7 +144,7 @@ li a:hover {
 </ul>
 
 
-<div class="" style="margin: 20px">
+<div class="" style="margin: 20px;color:green">
   <div class="container">
       <div class="jumbotron jumbotron-fluid">
       <h2>Raffle System</h2><hr>
@@ -153,26 +170,38 @@ li a:hover {
              
             </div>              
           </form> 
-              <div class="card border border-info  card-plain" style=" background-color: #2222 ">     
-
-                      <div class="card-body"><br>                        
-                        <center><h2>Welcome!</h2></center>
-                          <div class="jumbotron jumbotron-fluid" style=" margin-left: 150px; margin-right: 150px">                            
+              <div class="card border border-info  card-plain" style=" background-color: #2224; background-image: url(images/backg.jpg);background-repeat: no-repeat;  background-size: 100% 100%; ">     
+                  
+                      <div class="card-body"><br>
+                        <div class="row">
+                        <center><h2 style="color: white;">Welcome!</h2></center>
+                          <div class="col-md-4"></div>
+                          <div class="col-md-4">
+                          <div class="jumbotron jumbotron-fluid"  >                            
                             <div class="container" style="color:green">
 
                              <?php              
-
-
-                              
+                                    $sql = "SELECT * FROM users";
+                                    $params = array();
+                                    $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                                    $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                                    $row_count = sqlsrv_num_rows( $stmt );
+                                       
+                                    if ($row_count === false){
+                                       echo "Error in retrieveing row count.";
+                                    }                                      
+                                    else if($row_count > 0)
+                                    {
                                         if(!isset($_POST['start']) && !isset($_POST['stop']) ){
                                           echo ' <h2 class="col-sm-12"style="text-align: center" name="testing" id="testing">Click start to start!</h2>';
                                         }else{
                                           if(isset($_POST['start'])){                             
                                              echo ' <h2 class="col-sm-12"style="text-align: center" name="testing" id="testing">Choosing user...</h2>';  
-                                           }else{                         
+                                           }else{                    
                                           
-                                       }     
-                                          if(isset($_POST['stop'])){
+                                       }  
+                                         
+                                         if(isset($_POST['stop'])){
                                         $rowCount = "SELECT COUNT(*)  as num FROM users ";            
                                         $quer = sqlsrv_query($conn,$rowCount);
                                         $total_count = sqlsrv_fetch_array($quer);           
@@ -189,24 +218,50 @@ li a:hover {
 
                                               $bye_user = $fetch_user["id"];
 
-                                               echo ' <center><h3 style="color:black">Congratulations! </h3>
+                                               echo ' <center><h3 style="color:black;margin-bottom:-10px">Congratulations! </h3>
                                                <h2 class="col-sm-12"style="text-align: center" name="testing" id="testing">
-                                                       
+                                                       '.$fetch_user["id"].'
                                                      '.$fetch_user["fname"].'
                                                      '.$fetch_user["lname"].'
                                                      </h2>'; 
+
+                                               $get_User = "SELECT * FROM users WHERE id = '$bye_user'";
+                                               $querr = sqlsrv_query($conn,$get_User);
+                                               $get_row = sqlsrv_fetch_array($querr);
+                                                     $id = $get_row['id'];
+                                                     $fname = $get_row['fname'];
+                                                     $lname = $get_row['lname'];
+
+
+                                                $date = date("Y-m-d H:i:s"); 
+
+                                               $lipat_table = "INSERT INTO winner(id,fname,lname,date_time) VALUES ('$id','$fname','$lname','$date')";    
+                                               $lipattt = sqlsrv_query($conn,$lipat_table);
+
                                               
                                               $tanggal = "DELETE FROM users WHERE id = '$bye_user'";
-                                              $remove_user = sqlsrv_query($conn,$tanggal);                                             
+                                              $remove_user = sqlsrv_query($conn,$tanggal);   
 
-                                              }  
-                                          }                      
-                                      }                                
-                                
+
+
+                                                }  
+                                            }                      
+                                         }                                
+                                  
+                                    }
+                                    else{
+                                       echo ' <h2 class="col-sm-12"style="text-align: center" name="testing" id="testing">Empty Database!</h2>';
+
+                                    }                                   
+      
                             ?>                         
 
                             </div>                    
-                        </div>             
+                        </div> 
+                        </div>
+                      <div class="col-md-4"></div>
+                      </div>
+
                   </div>          
                
                   <div class="card-footer">
@@ -219,14 +274,30 @@ li a:hover {
                                   <div class="col-md-3">
                                   
                                        <?php
-                                    if (isset($_POST['start'])) {
+                                    $sql = "SELECT * FROM users";
+                                    $params = array();
+                                    $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+                                    $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+                                    $row_count = sqlsrv_num_rows( $stmt );
 
-                                              echo '<button  class="btn btn-success  btn-block" name="start" id="start" disabled style="color: #22" >Start</button>';
+                                     if ($row_count === false){
+                                       echo "Error in retrieveing row count.";
+                                    }                                      
+                                    else if($row_count > 0)
+                                    {
 
+                                        if (isset($_POST['start'])) {
+
+                                                  echo '<button  class="btn btn-success  btn-block" name="start" id="start" disabled style="color: #22" >Start</button>';
+
+                                         }
+                                              else{
+                                                  echo '<button class="btn btn-success  btn-block" name="start" id="start"  >Start</button>';
+                                              } 
                                      }
-                                          else{
-                                              echo '<button class="btn btn-success  btn-block" name="start" id="start"  >Start</button>';
-                                          }             
+                                     else{
+                                        echo '<button  class="btn btn-success  btn-block" name="start" id="start" disabled style="color: #22" >Start</button>';
+                                     }                     
                                     ?>                
                                    </div> 
                                       
@@ -254,6 +325,55 @@ li a:hover {
               </div>    
           </div>
       </div>
+
+
+
+
+
+<div class="" style="margin: 20px;color:green">
+  <div class="container">
+      <div>
+        <div class="jumbotron jumbotron-fluid">
+        <h2>History</h2><hr>
+          <table  style="align:center">
+            <tr>
+              <th>User Id</th>
+              <th>Name</th>
+              <th>Surname</th>
+              <th>Win Date/Time</th>
+            </tr>
+
+            <?php
+                $select_winner = "SELECT * FROM winner ORDER BY date_time DESC";
+                $win_query = sqlsrv_query($conn,$select_winner);               
+
+               while ( $row = sqlsrv_fetch_array($win_query)): {            
+     
+                } 
+                 
+                 
+              ?>
+            <tr>
+              <td><?php echo $row["id"];?></td>
+              <td><?php echo $row["fname"];?></td>
+              <td><?php echo $row["lname"];?></td>
+              <td><?php echo $row["date_time"];?></td>
+            </tr>
+
+          <?php endwhile;?>
+           
+            
+
+            
+          </table>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+
 
 
     
@@ -300,40 +420,6 @@ li a:hover {
 
 
 
-<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-
-<!-- Bootstrap 3.3.6 -->
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<!-- Morris.js charts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-<script src="plugins/morris/morris.min.js"></script>
-<!-- Sparkline -->
-<script src="plugins/sparkline/jquery.sparkline.min.js"></script>
-<!-- jvectormap -->
-<script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="plugins/knob/jquery.knob.js"></script>
-<!-- daterangepicker -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
-<script src="plugins/daterangepicker/daterangepicker.js"></script>
-<!-- datepicker -->
-<script src="plugins/datepicker/bootstrap-datepicker.js"></script>
-<!-- Bootstrap WYSIHTML5 -->
-<script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-<!-- Slimscroll -->
-<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="plugins/fastclick/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="dist/js/app.min.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="dist/js/pages/dashboard.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
 </body>
 </html>
 
