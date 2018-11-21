@@ -373,14 +373,13 @@ tr:nth-child(even) {
     $('#myTable').DataTable();
 } );
 
-    function myFunction() {
-    var x = document.getElementById("history");
-    if (x.style.display === "block") {
-        x.style.display = "none";
-    } else {
-        x.style.display = "block";
-    }
-}
+$(document).ready(function(){
+    $("#view_history").click(function(){
+        $("#history").toggle(1000);
+    });
+});
+
+
 
 </script>
 
