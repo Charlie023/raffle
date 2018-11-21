@@ -1,21 +1,17 @@
+
 <?php
-
 include "connect.php";
-
 if(isset($_POST["submit"])){
-
   $blanck = "";
   $fname = ucwords($_POST["fname"]);
   $lname = ucwords($_POST["lname"]);
   $yearsWorking = ucwords($_POST["num_years"]);
-
          
             
              for ($i=1; $i <= $yearsWorking ; $i++) { 
             $sql = "INSERT INTO users (fname,lname) VALUES ('$fname','$lname') ";
             $insy = sqlsrv_query($conn, $sql);
           }  
-
               if($insy){
                   echo '<script language="javascript">';
                   echo 'alert("User '.$fname.' '.$lname.' added!")';
@@ -29,7 +25,6 @@ if(isset($_POST["submit"])){
           }
            
         
-
 if(isset($_POST['stop'])){
   $sqly="SELECT id FROM users ORDER BY RAND()";
   $result=sqlsrv_query($conn, $sqly); 
@@ -41,9 +36,6 @@ if(isset($_POST['stop'])){
   shuffle($datas);
  // print_r($datas);
 }
-
-
-
   
 ?>
 
@@ -51,6 +43,18 @@ if(isset($_POST['stop'])){
 <head>
   <title>Nexus | Raffle </title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+  
+
+  <script src="plugins/js/jquery.min.js"></script>
+  <script src="plugins/js/underscore-min.js"></script>
+
+
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -75,13 +79,12 @@ if(isset($_POST['stop'])){
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
-  <script src="plugins/js/jquery.min,js"></script>
-  <script src="plugins/js/underscore-min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 
 </head>
 
 <style>
-
 ul {
     list-style-type: none;
     margin: 0;
@@ -89,11 +92,9 @@ ul {
     overflow: hidden;
     background-color: #006652;
 }
-
 li {
     float: left;
 }
-
 li a {
     display: block;
     color: white;
@@ -101,11 +102,9 @@ li a {
     padding: 14px 16px;
     text-decoration: none;
 }
-
 li a:hover {
     background-color: #111;
 }
-
  footer {
       background-color: #003329;
       color: white;
@@ -115,24 +114,26 @@ li a:hover {
       height: 10px;
        bottom: 0;
     }
-
     table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
 }
-
 td, th {
     border: 1px solid #dddddd;
-    text-align: left;
+    text-align: center;
     padding: 8px;
 }
-
 tr:nth-child(even) {
     background-color: #dddddd;
 }
 
+#history{
+	display: none;
+}
 </style>
+
+
 
 <body>
 
@@ -145,36 +146,38 @@ tr:nth-child(even) {
 
 
 <div class="" style="margin: 20px;color:green">
-  <div class="container">
-      <div class="jumbotron jumbotron-fluid">
+  <div class="container" >
+      <div class="jumbotron " >
       <h2>Raffle System</h2><hr>
         <form method="POST" id="registerForm">
-            <div class="row">
-              <div class="col-xs-4">
+            <div class="row"  >
+              <div class="col-xs-12 col-lg-4"  >
                 First Name:&nbsp;&nbsp;<input class="form-control" type="text" name="fname" id="fname" style="margin: 5px;" required ></input>
               </div>               
-              <div class="col-xs-4">
+              <div class="col-xs-12 col-lg-4" >
                 Last Name:&nbsp;&nbsp;<input class="form-control" type="text" name="lname" id="lname" style="margin: 5px;" required ></input><br>
               </div>
-              <div class="col-xs-4">              
+              <div class="col-xs-12 col-lg-4" >              
                 Years Working:&nbsp;&nbsp;<input class="form-control" type="number" name="num_years" id="num_years"  min="0" style="margin: 5px;" required></input><br>
               </div>
             </div>
               <div class="row ">
                 <div class="col-md-4"></div>
                  <div class="col-md-4"></div>
-                 <div class="col-md-2"></div>
-                <div class="col-md-2">
+                 
+                <div class="col-md-4 ">
                     <button class="btn btn-success col-md-8 " name="submit" id="submit" value="submit" style="float: right;">Submit</button></hr>
                 </div>
              
             </div>              
           </form> 
               <div class="card border border-info  card-plain" style=" background-color: #2224; background-image: url(images/backg.jpg);background-repeat: no-repeat;  background-size: 100% 100%; ">     
+
                   
                       <div class="card-body"><br>
-                        <div class="row">
+                        
                         <center><h2 style="color: white;">Welcome!</h2></center>
+                        <div class="row">
                           <div class="col-md-4"></div>
                           <div class="col-md-4">
                           <div class="jumbotron jumbotron-fluid"  >                            
@@ -210,40 +213,29 @@ tr:nth-child(even) {
                                          // echo $randnum . "<br>" ;
                                         // echo $total_rows . "<br>";  
                                         $usery = $datas[$randnum];
-
                                           if($usery){
                                               $getUser = "SELECT * FROM users WHERE id = '$usery'";
                                               $qwery = sqlsrv_query($conn,$getUser);
                                               $fetch_user = sqlsrv_fetch_array($qwery);
-
                                               $bye_user = $fetch_user["id"];
-
-                                               echo ' <center><h3 style="color:black;margin-bottom:-10px">Congratulations! </h3>
+                                               echo ' <center><h3 style="color:black;">Congratulations! </h3>
                                                <h2 class="col-sm-12"style="text-align: center" name="testing" id="testing">
                                                        '.$fetch_user["id"].'
                                                      '.$fetch_user["fname"].'
                                                      '.$fetch_user["lname"].'
                                                      </h2>'; 
-
                                                $get_User = "SELECT * FROM users WHERE id = '$bye_user'";
                                                $querr = sqlsrv_query($conn,$get_User);
                                                $get_row = sqlsrv_fetch_array($querr);
                                                      $id = $get_row['id'];
                                                      $fname = $get_row['fname'];
                                                      $lname = $get_row['lname'];
-
-
                                                 $date = date("Y-m-d H:i:s"); 
-
                                                $lipat_table = "INSERT INTO winner(id,fname,lname,date_time) VALUES ('$id','$fname','$lname','$date')";    
                                                $lipattt = sqlsrv_query($conn,$lipat_table);
-
                                               
                                               $tanggal = "DELETE FROM users WHERE id = '$bye_user'";
                                               $remove_user = sqlsrv_query($conn,$tanggal);   
-
-
-
                                                 }  
                                             }                      
                                          }                                
@@ -251,7 +243,6 @@ tr:nth-child(even) {
                                     }
                                     else{
                                        echo ' <h2 class="col-sm-12"style="text-align: center" name="testing" id="testing">Empty Database!</h2>';
-
                                     }                                   
       
                             ?>                         
@@ -265,13 +256,13 @@ tr:nth-child(even) {
                   </div>          
                
                   <div class="card-footer">
-                         <div class="container">
-                            <div class="row ">                    
-                                <form method="POST">
-                                  <div class="col-md-3">
+                         <div class="container">                                                
+                               <form method="POST">
+                                <div class="row">
+                                  <div class=" col-lg-3">
                                     
                                   </div>   
-                                  <div class="col-md-3">
+                                  <div class=" col-lg-3" >
                                   
                                        <?php
                                     $sql = "SELECT * FROM users";
@@ -279,17 +270,13 @@ tr:nth-child(even) {
                                     $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                                     $stmt = sqlsrv_query( $conn, $sql , $params, $options );
                                     $row_count = sqlsrv_num_rows( $stmt );
-
                                      if ($row_count === false){
                                        echo "Error in retrieveing row count.";
                                     }                                      
                                     else if($row_count > 0)
                                     {
-
                                         if (isset($_POST['start'])) {
-
                                                   echo '<button  class="btn btn-success  btn-block" name="start" id="start" disabled style="color: #22" >Start</button>';
-
                                          }
                                               else{
                                                   echo '<button class="btn btn-success  btn-block" name="start" id="start"  >Start</button>';
@@ -301,24 +288,24 @@ tr:nth-child(even) {
                                     ?>                
                                    </div> 
                                       
-                                   <div class="col-md-3 " >   
+                                   <div class="col-lg-3 " >   
                                       <?php
                                        if (isset($_POST['start'])) {
                                            echo '<button class="btn btn-danger btn-block" name="stop" id="stop" >Stop</button>';
                                        }else{
                                            echo '<button class="btn btn-danger btn-block" name="stop" id="stop" disabled >Stop</button>';
                                        }
-
                                       ?>
 
                                         
                                    </div>
-                                   <div class="col-md-3 ">
+                                   <div class="col-lg-3 ">
                                      
                                    </div> 
+                                   </div>
                                 </form>
                                 
-                              </div>  
+                             
                             </div> 
                       </div><br>
                   </div>                
@@ -326,50 +313,76 @@ tr:nth-child(even) {
           </div>
       </div>
 
+<div class="container">
+		<div class="row">
+			 <div class="col-lg-4">
+			          
+			  </div>
+			   <div class="col-lg-4">
+			          
+			  </div>
+			  <div class="col-lg-4">
+			          <button class="btn btn-success col-md-8 " name="view_history" id="view_history" style="float: right;" onclick="myFunction()">View History</button></hr>
+			  </div>
+  		</div>
+</div><br>
 
 
-
-
-<div class="" style="margin: 20px;color:green">
+<div id="history" name="history" style="margin: 20px;color:green" type="hidden">
   <div class="container">
-      <div>
-        <div class="jumbotron jumbotron-fluid">
+    
+        <div class="jumbotron ">
         <h2>History</h2><hr>
-          <table  style="align:center">
-            <tr>
-              <th>User Id</th>
-              <th>Name</th>
-              <th>Surname</th>
-              <th>Win Date/Time</th>
-            </tr>
+        <div class="col-sm-12 col-xs-12">
+	          <table id="myTable" class="display">
+				    	<thead>
+				        <tr>
+				            <th>User Id</th>
+				            <th>Name</th>
+				            <th>Surname</th>
+				            <th>Win Date/Time</th>
 
-            <?php
-                $select_winner = "SELECT * FROM winner ORDER BY date_time DESC";
-                $win_query = sqlsrv_query($conn,$select_winner);               
+				        </tr>
+				    	</thead>
+				    <tbody>
+				    	 <?php
+				                $select_winner = "SELECT * FROM winner ORDER BY date_time DESC";
 
-               while ( $row = sqlsrv_fetch_array($win_query)): {            
-     
-                } 
-                 
-                 
-              ?>
-            <tr>
-              <td><?php echo $row["id"];?></td>
-              <td><?php echo $row["fname"];?></td>
-              <td><?php echo $row["lname"];?></td>
-              <td><?php echo $row["date_time"];?></td>
-            </tr>
-
-          <?php endwhile;?>
-           
-            
-
-            
-          </table>
+				                $win_query = sqlsrv_query($conn,$select_winner);              
+				               while ( $row = sqlsrv_fetch_array($win_query)): {           
+				                } 
+				              ?>
+				        <tr>
+				            <td><?php echo $row["id"];?></td>
+				            <td><?php echo $row["fname"];?></td>
+				            <td><?php echo $row["lname"];?></td>
+				            <td><?php echo $row["date_time"];?></td>
+				        </tr>
+				         <?php endwhile;?>
+				    </tbody>
+				</table>
+			</div>
           </div>
-      </div>
+      
   </div>
 </div>
+
+<script type="text/javascript">
+  
+    $(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+
+    function myFunction() {
+    var x = document.getElementById("history");
+    if (x.style.display === "block") {
+        x.style.display = "none";
+    } else {
+        x.style.display = "block";
+    }
+}
+
+</script>
 
 
 
@@ -378,26 +391,20 @@ tr:nth-child(even) {
 
     
 <!--<script type="text/javascript">          
-
  //    var interval; 
  //    var numbers = ["Charlie","Mercado","Matanguihan","Lisa","Manoban","Jennie","Kim"];
  
  
  // $('#star').click(function() { 
-
  //  interval = setInterval(function() {
  //    if (numbers.length) {
  //      numbers = _.shuffle(numbers);
  //      $('#boo').html(numbers[0]);
  //    }
  //  }, 5);
-
    //$('#start').attr("disabled", true);
 //});
-
-
 //  $('#stop').click(function() {
-
 //   clearInterval(interval);
 //   numbers.shift(0);
 //   $('#testing').each(function() {
@@ -406,7 +413,6 @@ tr:nth-child(even) {
 //   });
 //   if (!numbers.length) {
 //     $('#testing').html('All Users Selected').addClass('selected');
-
 //   }
 //    $('#start').attr("disabled", false);
 // });
@@ -418,11 +424,12 @@ tr:nth-child(even) {
  &copy; Charlie Matanguihan || Ba&trade;an
 </footer>
 
-
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+  
+ <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
 </body>
 </html>
-
 
 
 
