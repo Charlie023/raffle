@@ -2,10 +2,11 @@
 <?php
 include "connect.php";
 if(isset($_POST["submit"])){
-  $blanck = "";
+  
   $fname = ucwords($_POST["fname"]);
   $lname = ucwords($_POST["lname"]);
   $yearsWorking = ucwords($_POST["num_years"]);
+ 
          
             
              for ($i=1; $i <= $yearsWorking ; $i++) { 
@@ -44,17 +45,14 @@ if(isset($_POST['stop'])){
   <title>Nexus | Raffle </title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!-- Boostrap CDN -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
-  
-
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/	ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> 
+<!-- Boostrap CDN -->
   <script src="plugins/js/jquery.min.js"></script>
   <script src="plugins/js/underscore-min.js"></script>
-
-
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -171,81 +169,80 @@ tr:nth-child(even) {
              
             </div>              
           </form> 
-              <div class="card border border-info  card-plain" style=" background-color: #2224; background-image: url(images/backg.jpg);background-repeat: no-repeat;  background-size: 100% 100%; ">     
-
-                  
-                      <div class="card-body"><br>
-                        
+              <div class="card border border-info  card-plain" style=" background-color: #2224; background-image: url(images/backg.jpg);background-repeat: no-repeat;  background-size: 100% 100%; "> 	
+                      <div class="card-body"><br>                        
                         <center><h2 style="color: white;">Welcome!</h2></center>
                         <div class="row">
                           <div class="col-md-4"></div>
-                          <div class="col-md-4">
-                          <div class="jumbotron jumbotron-fluid"  >                            
-                            <div class="container" style="color:green">
+                         	 <div class="col-md-4">
+                         		 <div class="jumbotron jumbotron-fluid"  >                            
+                           			 <div class="container" style="color:green">
 
-                             <?php              
-                                    $sql = "SELECT * FROM users";
-                                    $params = array();
-                                    $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
-                                    $stmt = sqlsrv_query( $conn, $sql , $params, $options );
-                                    $row_count = sqlsrv_num_rows( $stmt );
-                                       
-                                    if ($row_count === false){
-                                       echo "Error in retrieveing row count.";
-                                    }                                      
-                                    else if($row_count > 0)
-                                    {
-                                        if(!isset($_POST['start']) && !isset($_POST['stop']) ){
-                                          echo ' <h2 class="col-sm-12"style="text-align: center" name="testing" id="testing">Click start to start!</h2>';
-                                        }else{
-                                          if(isset($_POST['start'])){                             
-                                             echo ' <h2 class="col-sm-12"style="text-align: center" name="testing" id="testing">Choosing user...</h2>';  
-                                           }else{                    
-                                          
-                                       }  
-                                         
-                                         if(isset($_POST['stop'])){
-                                        $rowCount = "SELECT COUNT(*)  as num FROM users ";            
-                                        $quer = sqlsrv_query($conn,$rowCount);
-                                        $total_count = sqlsrv_fetch_array($quer);           
-                                        $total_rows = $total_count["num"];       
-                                        $randnum =  (mt_rand(0,$total_rows - 1));
-                                         // echo $randnum . "<br>" ;
-                                        // echo $total_rows . "<br>";  
-                                        $usery = $datas[$randnum];
-                                          if($usery){
-                                              $getUser = "SELECT * FROM users WHERE id = '$usery'";
-                                              $qwery = sqlsrv_query($conn,$getUser);
-                                              $fetch_user = sqlsrv_fetch_array($qwery);
-                                              $bye_user = $fetch_user["id"];
-                                               echo ' <center><h3 style="color:black;">Congratulations! </h3>
-                                               <h2 class="col-sm-12"style="text-align: center" name="testing" id="testing">
-                                                       '.$fetch_user["id"].'
-                                                     '.$fetch_user["fname"].'
-                                                     '.$fetch_user["lname"].'
-                                                     </h2>'; 
-                                               $get_User = "SELECT * FROM users WHERE id = '$bye_user'";
-                                               $querr = sqlsrv_query($conn,$get_User);
-                                               $get_row = sqlsrv_fetch_array($querr);
-                                                     $id = $get_row['id'];
-                                                     $fname = $get_row['fname'];
-                                                     $lname = $get_row['lname'];
-                                                $date = date("Y-m-d H:i:s"); 
-                                               $lipat_table = "INSERT INTO winner(id,fname,lname,date_time) VALUES ('$id','$fname','$lname','$date')";    
-                                               $lipattt = sqlsrv_query($conn,$lipat_table);
-                                              
-                                              $tanggal = "DELETE FROM users WHERE id = '$bye_user'";
-                                              $remove_user = sqlsrv_query($conn,$tanggal);   
-                                                }  
-                                            }                      
-                                         }                                
-                                  
-                                    }
-                                    else{
-                                       echo ' <h2 class="col-sm-12"style="text-align: center" name="testing" id="testing">Empty Database!</h2>';
-                                    }                                   
-      
-                            ?>                         
+	                             <?php              
+	                                    $sql = "SELECT * FROM users";
+	                                    $params = array();
+	                                    $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+	                                    $stmt = sqlsrv_query( $conn, $sql , $params, $options );
+	                                    $row_count = sqlsrv_num_rows( $stmt );
+	                                       
+	                                    if ($row_count === false){
+	                                       echo "Error in retrieveing row count.";
+	                                    }                                      
+	                                    else if($row_count > 0)
+	                                    {
+	                                        if(!isset($_POST['start']) && !isset($_POST['stop']) ){
+	                                          echo ' <h2 class="col-sm-12"style="text-align: center" name="test" id="test">Click start to start!</h2>';
+	                                        }else{
+	                                          if(isset($_POST['start']) && !isset($_POST['stop']) ){   
+
+
+	                                             echo ' <h2 class="col-sm-12"style="text-align: center" name="choose" id="choose">Choosing user <span id="wait">.</span></h2>';  
+	                                           }else{                    
+	                                          
+	                                       }  
+	                                         
+	                                         if(isset($_POST['stop'])){
+	                                        $rowCount = "SELECT COUNT(*)  as num FROM users ";            
+	                                        $quer = sqlsrv_query($conn,$rowCount);
+	                                        $total_count = sqlsrv_fetch_array($quer);           
+	                                        $total_rows = $total_count["num"];       
+	                                        $randnum =  (mt_rand(0,$total_rows - 1));
+	                                         // echo $randnum . "<br>" ;
+	                                        // echo $total_rows . "<br>";  
+	                                        $usery = $datas[$randnum];
+	                                          if($usery){
+	                                              $getUser = "SELECT * FROM users WHERE id = '$usery'";
+	                                              $qwery = sqlsrv_query($conn,$getUser);
+	                                              $fetch_user = sqlsrv_fetch_array($qwery);
+	                                              $bye_user = $fetch_user["id"];
+	                                               echo ' <center><h3 name="winn" id="winn" style="color:black;">Congratulations! </h3>
+	                                             		<h2  class="col-sm-12"style="text-align: center" >
+	                                                       
+	                                                     '.$fetch_user["fname"].'
+	                                                     '.$fetch_user["lname"].'
+	                                                     </h2>'; 
+	                                               $get_User = "SELECT * FROM users WHERE id = '$bye_user'";
+	                                               $querr = sqlsrv_query($conn,$get_User);
+	                                               $get_row = sqlsrv_fetch_array($querr);
+	                                                     $id = $get_row['id'];
+	                                                     $fname = $get_row['fname'];
+	                                                     $lname = $get_row['lname'];
+	                                                $date = date("Y-m-d H:i:s"); 
+	                                               $lipat_table = "INSERT INTO winner(id,fname,lname,date_time) VALUES ('$id','$fname','$lname','$date')";    
+	                                               $lipattt = sqlsrv_query($conn,$lipat_table);
+	                                              
+	                                              $tanggal = "DELETE FROM users WHERE id = '$bye_user'";
+	                                              $remove_user = sqlsrv_query($conn,$tanggal);   
+	                                                }  
+	                                            }                      
+	                                         }                                
+	                                  
+	                                    }
+	                                    else{
+	                                       echo ' <h2 class="col-sm-12"style="text-align: center" name="empty_db" id="empty_db">Empty Database!</h2>';
+	                                    }                                   
+	      
+	                            ?>                         
 
                             </div>                    
                         </div> 
@@ -304,8 +301,6 @@ tr:nth-child(even) {
                                    </div> 
                                    </div>
                                 </form>
-                                
-                             
                             </div> 
                       </div><br>
                   </div>                
@@ -315,76 +310,87 @@ tr:nth-child(even) {
 
 <div class="container">
 		<div class="row">
-			 <div class="col-lg-4">
-			          
+			 <div class="col-lg-4">			          
 			  </div>
-			   <div class="col-lg-4">
-			          
+			   <div class="col-lg-4">          
 			  </div>
 			  <div class="col-lg-4">
-			          <button class="btn btn-success col-md-8 " name="view_history" id="view_history" style="float: right;" onclick="myFunction()">View History</button></hr>
+			        <button class="btn btn-success col-md-8 " name="view_history" id="view_history" style="float: right;" onclick="myFunction()">View History</button></hr>
 			  </div>
   		</div>
 </div><br>
 
 
 <div id="history" name="history" style="margin: 20px;color:green" type="hidden">
-  <div class="container">
-    
+  <div class="container">    
         <div class="jumbotron ">
-        <h2>History</h2><hr>
-        <div class="col-sm-12 col-xs-12">
-	          <table id="myTable" class="display">
+        		<h2>History</h2><hr>
+        	<div class="col-sm-12 col-xs-12">
+	          	<table id="myTable" class="display">
 				    	<thead>
-				        <tr>
-				            <th>User Id</th>
-				            <th>Name</th>
-				            <th>Surname</th>
-				            <th>Win Date/Time</th>
+					        <tr>
+					            <th>User Id</th>
+					            <th>Name</th>
+					            <th>Surname</th>
+					            <th>Win Date/Time</th>
 
-				        </tr>
+					        </tr>
 				    	</thead>
-				    <tbody>
-				    	 <?php
-				                $select_winner = "SELECT * FROM winner ORDER BY date_time DESC";
+				   		 <tbody>
+					    	 <?php
+					                $select_winner = "SELECT * FROM winner ORDER BY date_time DESC";
 
-				                $win_query = sqlsrv_query($conn,$select_winner);              
-				               while ( $row = sqlsrv_fetch_array($win_query)): {           
-				                } 
-				              ?>
-				        <tr>
-				            <td><?php echo $row["id"];?></td>
-				            <td><?php echo $row["fname"];?></td>
-				            <td><?php echo $row["lname"];?></td>
-				            <td><?php echo $row["date_time"];?></td>
-				        </tr>
-				         <?php endwhile;?>
-				    </tbody>
+					                $win_query = sqlsrv_query($conn,$select_winner);              
+					               while ( $row = sqlsrv_fetch_array($win_query)): {           
+					                } 
+					              ?>
+					        <tr>
+					            <td><?php echo $row["id"];?></td>
+					            <td><?php echo $row["fname"];?></td>
+					            <td><?php echo $row["lname"];?></td>
+					            <td><?php echo $row["date_time"];?></td>
+					        </tr>
+					         <?php endwhile;?>
+				   		 </tbody>
 				</table>
 			</div>
-          </div>
-      
-  </div>
+        </div>      
+ 	 </div>
 </div>
+
+
 
 <script type="text/javascript">
   
-    $(document).ready( function () {
-    $('#myTable').DataTable();
-} );
+	    $(document).ready( function () {
+	    $('#myTable').DataTable();
+	} );
 
-$(document).ready(function(){
-    $("#view_history").click(function(){
-        $("#history").toggle(1000);
-    });
-});
-
-
+	$(document).ready(function(){
+	    $("#view_history").click(function(){
+	        $("#history").toggle(1000);
+	    });
+	});
 
 </script>
 
 
+<script>
+var dots = window.setInterval( function() {
+    var wait = document.getElementById("wait");
+    if ( wait.innerHTML.length > 2 ) 
+        wait.innerHTML = "";
+    else 
+        wait.innerHTML += ".";
+    }, 300);
 
+// $("#stop").click(function(){
+//     $("#winn").fadeIn();
+//     $("#winn").fadeIn("slow");
+//     $("#winn").fadeIn(40000);
+// });
+
+</script>
 
 
 
@@ -429,6 +435,8 @@ $(document).ready(function(){
 
 </body>
 </html>
+
+
 
 
 
