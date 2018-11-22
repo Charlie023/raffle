@@ -56,7 +56,7 @@ if(isset($_POST['stop'])){
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
@@ -77,78 +77,55 @@ if(isset($_POST['stop'])){
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
+  <link rel="stylesheet" type="text/css" href="bootstrap/css/raffleDesign.css">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+ 
+
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
-
-<style>
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #006652;
-}
-li {
-    float: left;
-}
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-li a:hover {
-    background-color: #111;
-}
- footer {
-      background-color: #003329;
-      color: white;
-      padding: 50px;
-      
-      width: 100%;
-      height: 10px;
-       bottom: 0;
-    }
-    table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-td, th {
-    border: 1px solid #dddddd;
-    text-align: center;
-    padding: 8px;
-}
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-
-#history{
-	display: none;
-}
-</style>
-
-
 
 <body>
 
-<ul>
-  <li><a class="active" href="#home"></a>.</li>
-  <li><a href="#news"></a></li>
-  <li><a href="#contact"></a></li>
-  <li><a href="#about"></a></li>
-</ul>
+ <nav class="navbar header-top fixed-top navbar-expand-lg navbar-light bg-light col-md-12 col-lg-12" >
+      <span class="navbar-toggler-icon leftmenutrigger"></span>
 
+      <a class="navbar-brand" href="#"><img src="images/nexuslogo.png" style="width: 40px; height: 40px;padding: 0px; margin: 0px;"></a>
+      <a class="navbar-brand" id="comp_name" name="comp_name"> Nexus Technologies, Inc.</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon" ></span>
+      </button>
 
-<div class="" style="margin: 20px;color:green">
+      <div class="collapse navbar-collapse" id="navbarText" name="navbarText" >
+        <ul class="navbar-nav animate side-nav">
+          <li class="nav-item">
+            <a  href="" id="addUser" name="addUser" style="width: 100%"> 
+            <i class="fa fa-plus"></i>Add User                   
+            </a>
+             <a href="" id="addPrice" name="addPrice" style="width: 100%" data-toggle="modal" data-target="#myModal"> 
+            <i class="fa fa-plus"></i>Add Price                   
+            </a>
+              
+            </a>
+          </li>         
+        </ul>
+      </div>
+
+    </nav>
+
+<div  style="margin: 20px;color:green;margin-top: 100px;">
   <div class="container" >
-      <div class="jumbotron " >
+      <div class="jumbotron ">
       <h2>Raffle System</h2><hr>
         <form method="POST" id="registerForm">
-            <div class="row"  >
+        
+        <div name="add_user" id="add_user" >           
+            <div class="row">            	
               <div class="col-xs-12 col-lg-4"  >
                 First Name:&nbsp;&nbsp;<input class="form-control" type="text" name="fname" id="fname" style="margin: 5px;" required ></input>
               </div>               
@@ -165,9 +142,62 @@ tr:nth-child(even) {
                  
                 <div class="col-md-4 ">
                     <button class="btn btn-success col-md-8 " name="submit" id="submit" value="submit" style="float: right;">Submit</button></hr>
+                </div> 
+             </div>
+          </div> 
+
+          
+
+            <!-- select item drop down -->
+             <div>
+            	<div class="row">
+            		<div class="col-md-4 col-lg-4">
+            			Prices Lists<select name="viewPrices" id="viewPrices" class="form-control"  >            		
+					                  <option value=""></option>
+					                  	<?php
+								          	// SELECT PRICE AND INSERT INTO A DROPDOWN INPUT
+								          $dp = "SELECT * FROM prices";
+								          $sqls = sqlsrv_query($conn,$dp);
+								          while ($cout = sqlsrv_fetch_array($sqls)): {								          
+								          }
+
+								          ?>
+								        <form method="post">
+								        	<option id="opt" name="opt" value="<?php echo $cout['id'];?>"><?php echo $cout['price_name'];?></option> 	
+								        </form>	                  
+  										<?php endwhile;?>  													
+			            			</select>
+			              		</div>
+
+	            		<div class="col-md-2 col-md-2">
+	            			<div id="rresult" name="rresult"></div>
+	            		</div>   
+            	    <div class="col-md-6 col-lg-6"></div>         		
                 </div>
+            </div> 
+             <!-- select item drop down -->
+
+             <!-- selecting the value of select tag -->
+             <script type="text/javascript">
+             	$(document).ready(function(){ 
+					$("#viewPrices").change(function(){
+					 var selectedprices = $('#viewPrices').val(); 
+						
+						$.ajax({  
+			                url:"prices.php",  
+			                method:"POST",  
+			                data:{selectedprices:selectedprices},  
+			                success:function(data){  
+			                     $('#rresult').html(data);  
+			                }  
+			           }); 
+
+					});
+					 
+					});
+             </script>
              
-            </div>              
+
           </form> 
               <div class="card border border-info  card-plain" style=" background-color: #2224; background-image: url(images/backg.jpg);background-repeat: no-repeat;  background-size: 100% 100%; "> 	
                       <div class="card-body"><br>                        
@@ -191,12 +221,12 @@ tr:nth-child(even) {
 	                                    else if($row_count > 0)
 	                                    {
 	                                        if(!isset($_POST['start']) && !isset($_POST['stop']) ){
-	                                          echo ' <h2 class="col-sm-12"style="text-align: center" name="test" id="test">Click start to start!</h2>';
+	                                          echo ' <h2 class="col-sm-12"style="text-align: center" name="test" id="test">Click start to Begin!</h2>';
 	                                        }else{
 	                                          if(isset($_POST['start']) && !isset($_POST['stop']) ){   
 
 
-	                                             echo ' <h2 class="col-sm-12"style="text-align: center" name="choose" id="choose">Choosing user <span id="wait">.</span></h2>';  
+	                                             echo ' <h3 class="col-sm-2 col-xs-2 col-lg-12"style="text-align: center" name="choose" id="choose">Choosing user <span id="wait">.</span></h3>';  
 	                                           }else{                    
 	                                          
 	                                       }  
@@ -215,7 +245,7 @@ tr:nth-child(even) {
 	                                              $qwery = sqlsrv_query($conn,$getUser);
 	                                              $fetch_user = sqlsrv_fetch_array($qwery);
 	                                              $bye_user = $fetch_user["id"];
-	                                               echo ' <center><h3 name="winn" id="winn" style="color:black;">Congratulations! </h3>
+	                                               echo ' <center><h3 class="col-xs-12 col-sm-12 col-md-12 col-lg-12" name="winn" id="winn" style="color:black;">Congratulations! </h3>
 	                                             		<h2  class="col-sm-12"style="text-align: center" >
 	                                                       
 	                                                     '.$fetch_user["fname"].'
@@ -228,6 +258,7 @@ tr:nth-child(even) {
 	                                                     $fname = $get_row['fname'];
 	                                                     $lname = $get_row['lname'];
 	                                                $date = date("Y-m-d H:i:s"); 
+
 	                                               $lipat_table = "INSERT INTO winner(id,fname,lname,date_time) VALUES ('$id','$fname','$lname','$date')";    
 	                                               $lipattt = sqlsrv_query($conn,$lipat_table);
 	                                              
@@ -239,7 +270,7 @@ tr:nth-child(even) {
 	                                  
 	                                    }
 	                                    else{
-	                                       echo ' <h2 class="col-sm-12"style="text-align: center" name="empty_db" id="empty_db">Empty Database!</h2>';
+	                                       echo ' <h3 class="col-sm-12"style="text-align: center" name="empty_db" id="empty_db">Empty Database! Insert User First.</h3>';
 	                                    }                                   
 	      
 	                            ?>                         
@@ -272,16 +303,16 @@ tr:nth-child(even) {
                                     }                                      
                                     else if($row_count > 0)
                                     {
-                                        if (isset($_POST['start'])) {
-                                                  echo '<button  class="btn btn-success  btn-block" name="start" id="start" disabled style="color: #22" >Start</button>';
-                                         }
-                                              else{
-                                                  echo '<button class="btn btn-success  btn-block" name="start" id="start"  >Start</button>';
-                                              } 
+	                                        if (isset($_POST['start'])) {
+	                                                  echo '<button  class="btn btn-success  btn-block" name="start" id="start" disabled style="color: #22" >Start</button>';
+	                                         }
+	                                         else{
+	                                                  echo '<button class="btn btn-success  btn-block" name="start" id="start"  >Start</button>';
+	                                         } 
                                      }
                                      else{
-                                        echo '<button  class="btn btn-success  btn-block" name="start" id="start" disabled style="color: #22" >Start</button>';
-                                     }                     
+                                        	echo '<button  class="btn btn-success  btn-block" name="start" id="start" disabled style="color: #22" >Start</button>';
+                                    	 }                     
                                     ?>                
                                    </div> 
                                       
@@ -303,10 +334,12 @@ tr:nth-child(even) {
                                 </form>
                             </div> 
                       </div><br>
-                  </div>                
+                  </div>                            
               </div>    
           </div>
-      </div>
+      </div>  
+
+
 
 <div class="container">
 		<div class="row">
@@ -315,23 +348,24 @@ tr:nth-child(even) {
 			   <div class="col-lg-4">          
 			  </div>
 			  <div class="col-lg-4">
-			        <button class="btn btn-success col-md-8 " name="view_history" id="view_history" style="float: right;" onclick="myFunction()">View History</button></hr>
+			        <button class="btn btn-success col-md-8 " name="view_history" id="view_history" style="float: right;" >View History</button></hr>
 			  </div>
   		</div>
 </div><br>
 
 
-<div id="history" name="history" style="margin: 20px;color:green" type="hidden">
+<div id="history" name="history" style="margin: 20px;color:green" >
   <div class="container">    
         <div class="jumbotron ">
-        		<h2>History</h2><hr>
-        	<div class="col-sm-12 col-xs-12">
+        		<h2>Winners History Log</h2><hr>
+
+        	
 	          	<table id="myTable" class="display">
 				    	<thead>
 					        <tr>
-					            <th>User Id</th>
-					            <th>Name</th>
-					            <th>Surname</th>
+					            <th>Id</th>
+					            <th>Employee Name</th>					            
+					            <th>Price Get</th>
 					            <th>Win Date/Time</th>
 
 					        </tr>
@@ -346,53 +380,125 @@ tr:nth-child(even) {
 					              ?>
 					        <tr>
 					            <td><?php echo $row["id"];?></td>
-					            <td><?php echo $row["fname"];?></td>
-					            <td><?php echo $row["lname"];?></td>
+					            <td><?php echo $row["fname"];?><?php echo "";?><?php echo $row["lname"];?></td>					         
+					            <td><?php echo $row["prices"];?></td>
 					            <td><?php echo $row["date_time"];?></td>
 					        </tr>
 					         <?php endwhile;?>
 				   		 </tbody>
 				</table>
-			</div>
+			
+
         </div>      
  	 </div>
 </div>
 
+<!-- add price modal -->
+<div class="container col-xs-4"> 
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">          
+          <h5 class="modal-title">Add Prices </h5>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+          <form method="post">
+		        <div class="modal-body">
+
+		        Product Name:&nbsp;<input class="form-control" type="text" id="product" name="product" required></input>
+		        Quantity:&nbsp;<input class="form-control" type="number" id="quan" name="quan" min="0" required></input>
+		        </div>
+		        <div class="modal-footer">
+		        	<button  class="btn btn-success" id="add_price" name="add_price" value="submit">Add</button>
+		          	<button  class="btn btn-default" data-dismiss="modal">Close</button>
+		        </div>
+         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<?php
+
+if(isset($_POST["add_price"])){
+  
+  $product = ucwords($_POST["product"]);  
+   $quantity = $_POST["quan"]; 
+
+  $sql_ins = "INSERT INTO prices (price_name,quantity) VALUES ('$product','$quantity') ";
+  $inserty = sqlsrv_query($conn, $sql_ins);
+      
+              if($inserty){
+                  echo '<script language="javascript">';
+                  echo 'alert("'.$product.' added!")';
+                  echo '</script>';
+                  header('Location: http://192.168.66.186/raffle/index.php');
+              }else{
+                  echo '<script language="javascript">';
+                  echo 'alert("Product not added!")';
+                  echo '</script>';
+              }
+             
+          }
+
+?>
+
 
 
 <script type="text/javascript">
-  
+  // data tables java script
 	    $(document).ready( function () {
 	    $('#myTable').DataTable();
 	} );
-
+// show winners history log table
 	$(document).ready(function(){
 	    $("#view_history").click(function(){
 	        $("#history").toggle(1000);
 	    });
 	});
 
-</script>
+// show add user and hide side bar 
+	$(document).ready(function(){
+	    $("#addUser").click(function(e){
+	        $("#add_user").toggle(1000);     	      
+	        e.preventDefault();
+	       
+	    });
+	});
 
 
-<script>
+
+// 3 dots loop
 var dots = window.setInterval( function() {
     var wait = document.getElementById("wait");
-    if ( wait.innerHTML.length > 2 ) 
+    if ( wait.innerHTML.length > 2 ) {
         wait.innerHTML = "";
-    else 
+    }
+    else {
         wait.innerHTML += ".";
+    }
     }, 300);
 
-// $("#stop").click(function(){
-//     $("#winn").fadeIn();
-//     $("#winn").fadeIn("slow");
-//     $("#winn").fadeIn(40000);
-// });
+// left side bar 
+$( document ).ready(function() {
+     $('.leftmenutrigger').on('click', function(e) {
+     $('.side-nav').toggleClass("open");
+     e.preventDefault();
+    });
+});
+
 
 </script>
+  <footer class="container-fluid ">
+ &copy; Charlie Matanguihan 
+</footer>
 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+  
+ <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
+</body>
+</html>
 
     
 <!--<script type="text/javascript">          
@@ -422,21 +528,6 @@ var dots = window.setInterval( function() {
 //    $('#start').attr("disabled", false);
 // });
 </script>-->
-
-
-
-  <footer class="container-fluid ">
- &copy; Charlie Matanguihan || Ba&trade;an
-</footer>
-
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-  
- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-
-</body>
-</html>
-
-
 
 
 
