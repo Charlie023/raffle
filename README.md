@@ -1,2 +1,2 @@
 # raffle
-A simple raffle system made with php
+A simple raffle system made with php,sql and ajax
