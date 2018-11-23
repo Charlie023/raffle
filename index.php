@@ -78,6 +78,11 @@ if(isset($_POST['stop'])){
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
   <link rel="stylesheet" type="text/css" href="bootstrap/css/raffleDesign.css">
+
+
+
+  
+
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -89,34 +94,30 @@ if(isset($_POST['stop'])){
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
+
 <body>
 
- <nav class="navbar header-top fixed-top navbar-expand-lg navbar-light bg-light col-md-12 col-lg-12" >
+ <nav class="navbar header-top fixed-top navbar-expand-lg navbar-light bg-light" >
       <span class="navbar-toggler-icon leftmenutrigger"></span>
+      	<a class="navbar-brand" href="#"><img src="images/nexuslogo.png" style="width: 40px; height: 40px;padding: 0px; margin: 0px;"></a>
+     	 <a class="navbar-brand" id="comp_name" name="comp_name"> Nexus Technologies, Inc.</a>
+     	 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
+        	aria-expanded="false" aria-label="Toggle navigation">
+        	<span class="navbar-toggler-icon" ></span> </button>
+	      	<div class="collapse navbar-collapse" id="navbarText" name="navbarText" >
+	        	<ul class="navbar-nav animate side-nav">         
+	          	<li class="nav-item">
+	           		<a  href="" id="addUser" name="addUser" style="width: 100%"> 
+	           		 	<i class="fa fa-plus"></i>Add User                   
+	           		</a>
+	           	 	<a href="" id="addPrice" name="addPrice" style="width: 100%" data-toggle="modal" data-target="#myModal"> 
+	            		<i class="fa fa-plus"></i>Add Price                   
+	           		 </a>                   
+	          </li>         
+	        </ul>
+	   </div>
+  </nav>
 
-      <a class="navbar-brand" href="#"><img src="images/nexuslogo.png" style="width: 40px; height: 40px;padding: 0px; margin: 0px;"></a>
-      <a class="navbar-brand" id="comp_name" name="comp_name"> Nexus Technologies, Inc.</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon" ></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarText" name="navbarText" >
-        <ul class="navbar-nav animate side-nav">
-          <li class="nav-item">
-            <a  href="" id="addUser" name="addUser" style="width: 100%"> 
-            <i class="fa fa-plus"></i>Add User                   
-            </a>
-             <a href="" id="addPrice" name="addPrice" style="width: 100%" data-toggle="modal" data-target="#myModal"> 
-            <i class="fa fa-plus"></i>Add Price                   
-            </a>
-              
-            </a>
-          </li>         
-        </ul>
-      </div>
-
-    </nav>
 
 <div  style="margin: 20px;color:green;margin-top: 100px;">
   <div class="container" >
@@ -149,40 +150,44 @@ if(isset($_POST['stop'])){
           
 
             <!-- select item drop down -->
+           
+
              <div>
             	<div class="row">
             		<div class="col-md-4 col-lg-4">
-            			Prices Lists<select name="viewPrices" id="viewPrices" class="form-control"  >            		
-					                  <option value=""></option>
+            			Prices Lists<select name="viewPrices" id="viewPrices" class="form-control" onChange="window.open(this.options[this.selectedIndex].value,'_top')">            		
+					                  <option selected disabled id="aw" name="aw" value="<?php echo $_GET["id"];?>"><?php echo $_GET['price_name']; ?></option>
 					                  	<?php
 								          	// SELECT PRICE AND INSERT INTO A DROPDOWN INPUT
-								          $dp = "SELECT * FROM prices";
+								          $dp = "SELECT * FROM prices WHERE quantity > 0";
 								          $sqls = sqlsrv_query($conn,$dp);
 								          while ($cout = sqlsrv_fetch_array($sqls)): {								          
 								          }
 
 								          ?>
 								        <form method="post">
-								        	<option id="opt" name="opt" value="<?php echo $cout['id'];?>"><?php echo $cout['price_name'];?></option> 	
+								        	<option id="droplist" name="droplist"  value="index.php?id=<?php echo $cout['id'];?>&price_name=<?php echo $cout['price_name'];?>&quantity=<?php echo $cout['quantity'];?>"><?php echo $cout['price_name'];?></option> 	
 								        </form>	                  
   										<?php endwhile;?>  													
 			            			</select>
 			              		</div>
 
-	            		<div class="col-md-2 col-md-2">
-	            			<div id="rresult" name="rresult"></div>
+	            				<div class="col-md-2 col-md-2">
+	            			Quantity <input id="price_quan" name="price_quan" class="form-control" value="<?php echo $_GET['quantity']; ?>"></input>
 	            		</div>   
             	    <div class="col-md-6 col-lg-6"></div>         		
                 </div>
             </div> 
-             <!-- select item drop down -->
+             <!-- end select item drop down -->
+         
 
-             <!-- selecting the value of select tag -->
-             <script type="text/javascript">
+             <!-- selecting the value of select tag jquery,ajax-->
+          <!--    <script type="text/javascript">
              	$(document).ready(function(){ 
 					$("#viewPrices").change(function(){
 					 var selectedprices = $('#viewPrices').val(); 
-						
+							// alert(selectedprices);
+
 						$.ajax({  
 			                url:"prices.php",  
 			                method:"POST",  
@@ -195,7 +200,7 @@ if(isset($_POST['stop'])){
 					});
 					 
 					});
-             </script>
+             </script> -->
              
 
           </form> 
@@ -207,6 +212,8 @@ if(isset($_POST['stop'])){
                          	 <div class="col-md-4">
                          		 <div class="jumbotron jumbotron-fluid"  >                            
                            			 <div class="container" style="color:green">
+
+                                    <div id="raffles" name="raffles"></div>
 
 	                             <?php              
 	                                    $sql = "SELECT * FROM users";
@@ -221,7 +228,7 @@ if(isset($_POST['stop'])){
 	                                    else if($row_count > 0)
 	                                    {
 	                                        if(!isset($_POST['start']) && !isset($_POST['stop']) ){
-	                                          echo ' <h2 class="col-sm-12"style="text-align: center" name="test" id="test">Click start to Begin!</h2>';
+	                                          echo ' <h3 class="col-sm-12"style="text-align: center" name="test" id="test">Choose Price then Click Start to Begin!</h3>';
 	                                        }else{
 	                                          if(isset($_POST['start']) && !isset($_POST['stop']) ){   
 
@@ -232,6 +239,10 @@ if(isset($_POST['stop'])){
 	                                       }  
 	                                         
 	                                         if(isset($_POST['stop'])){
+                                          $prod_id = $_GET["id"];
+                                          $prod_name = $_GET["price_name"];
+                                          $prod_quantity = $_GET["quantity"];  
+
 	                                        $rowCount = "SELECT COUNT(*)  as num FROM users ";            
 	                                        $quer = sqlsrv_query($conn,$rowCount);
 	                                        $total_count = sqlsrv_fetch_array($quer);           
@@ -259,11 +270,23 @@ if(isset($_POST['stop'])){
 	                                                     $lname = $get_row['lname'];
 	                                                $date = date("Y-m-d H:i:s"); 
 
-	                                               $lipat_table = "INSERT INTO winner(id,fname,lname,date_time) VALUES ('$id','$fname','$lname','$date')";    
+	                                               $lipat_table = "INSERT INTO winner(id,fname,lname,date_time,prices) VALUES ('$id','$fname','$lname','$date','$prod_name')";    
 	                                               $lipattt = sqlsrv_query($conn,$lipat_table);
 	                                              
-	                                              $tanggal = "DELETE FROM users WHERE id = '$bye_user'";
-	                                              $remove_user = sqlsrv_query($conn,$tanggal);   
+                                                $tanggal = "DELETE FROM users WHERE id = '$bye_user'";
+                                                $remove_user = sqlsrv_query($conn,$tanggal);
+
+                                                $sel_prices = "SELECT quantity FROM prices WHERE id = $prod_id";
+                                                $sqq = sqlsrv_query($conn,$sel_prices);
+
+                                                
+                                                  $update_prod = "UPDATE prices SET quantity = $prod_quantity-1 WHERE id = $prod_id";
+                                                  $ups = sqlsrv_query($conn,$update_prod);
+                                                
+
+                                                 
+
+	                                                 
 	                                                }  
 	                                            }                      
 	                                         }                                
@@ -292,28 +315,32 @@ if(isset($_POST['stop'])){
                                   </div>   
                                   <div class=" col-lg-3" >
                                   
-                                       <?php
+                          <?php
+
+                            
+                             	  
                                     $sql = "SELECT * FROM users";
                                     $params = array();
                                     $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
                                     $stmt = sqlsrv_query( $conn, $sql , $params, $options );
                                     $row_count = sqlsrv_num_rows( $stmt );
                                      if ($row_count === false){
-                                       echo "Error in retrieveing row count.";
+                                       echo "Error in retrieving row count.";
                                     }                                      
-                                    else if($row_count > 0)
+                                    else if($row_count > 0 )
                                     {
 	                                        if (isset($_POST['start'])) {
 	                                                  echo '<button  class="btn btn-success  btn-block" name="start" id="start" disabled style="color: #22" >Start</button>';
 	                                         }
 	                                         else{
-	                                                  echo '<button class="btn btn-success  btn-block" name="start" id="start"  >Start</button>';
+	                                                  echo '<button class="btn btn-success  btn-block" name="start" id="start"   >Start</button>';
 	                                         } 
-                                     }
-                                     else{
-                                        	echo '<button  class="btn btn-success  btn-block" name="start" id="start" disabled style="color: #22" >Start</button>';
-                                    	 }                     
-                                    ?>                
+                                     }                               
+									                   else{                                    	 
+                                        	echo '<button  class="btn btn-success  btn-block" name="start" id="start" disabled style="color: #22" >Start</button>';                                    	
+                                    	 }                   
+                           ?> 
+
                                    </div> 
                                       
                                    <div class="col-lg-3 " >   
@@ -322,9 +349,8 @@ if(isset($_POST['stop'])){
                                            echo '<button class="btn btn-danger btn-block" name="stop" id="stop" >Stop</button>';
                                        }else{
                                            echo '<button class="btn btn-danger btn-block" name="stop" id="stop" disabled >Stop</button>';
-                                       }
-                                      ?>
-
+                                       }                                                       
+					               	?>
                                         
                                    </div>
                                    <div class="col-lg-3 ">
@@ -338,8 +364,6 @@ if(isset($_POST['stop'])){
               </div>    
           </div>
       </div>  
-
-
 
 <div class="container">
 		<div class="row">
@@ -358,15 +382,15 @@ if(isset($_POST['stop'])){
   <div class="container">    
         <div class="jumbotron ">
         		<h2>Winners History Log</h2><hr>
-
-        	
+        	<div class="table-responsive col-sm-12 col-xs-12">
 	          	<table id="myTable" class="display">
 				    	<thead>
-					        <tr>
+					        <tr class=" text-center">
 					            <th>Id</th>
-					            <th>Employee Name</th>					            
-					            <th>Price Get</th>
+					            <th>Employee Name</th>	
 					            <th>Win Date/Time</th>
+					            <th>Price Get</th>
+					            <th>Price Get Actions</th>		            
 
 					        </tr>
 				    	</thead>
@@ -380,18 +404,45 @@ if(isset($_POST['stop'])){
 					              ?>
 					        <tr>
 					            <td><?php echo $row["id"];?></td>
-					            <td><?php echo $row["fname"];?><?php echo "";?><?php echo $row["lname"];?></td>					         
-					            <td><?php echo $row["prices"];?></td>
-					            <td><?php echo $row["date_time"];?></td>
-					        </tr>
+					            <td><?php echo $row["fname"];?><?php echo '&nbsp;'?><?php echo $row["lname"];?></td>
+       								<td><?php echo $row["date_time"];?></td>
+       								<td><?php echo $row["prices"];?></td>		
+					            
+					            <td class="td-actions text-center"> 
+						            <form method="POST" style="margin: 0px; padding: 0px;">
+	                               	 <input type="hidden" value="<?php echo $row['id']; ?>" name="userAyDi">
+		                            <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="center" title="Return Prices" name="return" id="return">
+		                              <i class="fa fa-reply"></i>&nbsp;Return<?php echo $row['id']; ?></button>
+		                            <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="center" title="Exchange Price" name="exchange" id="exchange">
+		                              <i class="fa fa-exchange"></i>&nbsp;Exchange<?php echo $row['id']; ?></button>
+		                            </form>
+                                </td>	                   
+					               </tr>
 					         <?php endwhile;?>
-				   		 </tbody>
-				</table>
-			
-
+				   		     </tbody>
+				   		 <tfoot>
+				   		 	 <tr class=" text-center">
+					            <th>Id</th>
+					            <th>Employee Name</th>	
+					            <th>Win Date/Time</th>
+					            <th>Price Get</th>
+					            <th>Price Get Actions</th>	           
+					        </tr>
+				   		 </tfoot>
+				</table>		
+				</div>
         </div>      
  	 </div>
 </div>
+
+<?php
+if(isset($_POST['return'])){
+    echo '<script language="javascript">';
+    echo 'alert('.$row['id'].')';
+    echo '</script>';
+}
+
+?>
 
 <!-- add price modal -->
 <div class="container col-xs-4"> 
@@ -423,8 +474,7 @@ if(isset($_POST['stop'])){
 if(isset($_POST["add_price"])){
   
   $product = ucwords($_POST["product"]);  
-   $quantity = $_POST["quan"]; 
-
+  $quantity = $_POST["quan"];
   $sql_ins = "INSERT INTO prices (price_name,quantity) VALUES ('$product','$quantity') ";
   $inserty = sqlsrv_query($conn, $sql_ins);
       
@@ -432,15 +482,13 @@ if(isset($_POST["add_price"])){
                   echo '<script language="javascript">';
                   echo 'alert("'.$product.' added!")';
                   echo '</script>';
-                  header('Location: http://192.168.66.186/raffle/index.php');
+                  echo 'window.location.reload(true)';
               }else{
                   echo '<script language="javascript">';
                   echo 'alert("Product not added!")';
                   echo '</script>';
-              }
-             
+              }             
           }
-
 ?>
 
 
@@ -487,14 +535,13 @@ $( document ).ready(function() {
     });
 });
 
-
 </script>
   <footer class="container-fluid ">
  &copy; Charlie Matanguihan 
 </footer>
-
+ 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-  
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"> -->
  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
 </body>
