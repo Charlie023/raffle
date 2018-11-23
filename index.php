@@ -111,7 +111,7 @@ if(isset($_POST['stop'])){
 	           		 	<i class="fa fa-plus"></i>Add User                   
 	           		</a>
 	           	 	<a href="" id="addPrice" name="addPrice" style="width: 100%" data-toggle="modal" data-target="#myModal"> 
-	            		<i class="fa fa-plus"></i>Add Price                   
+	            		<i class="fa fa-plus"></i>Add Prize                   
 	           		 </a>                   
 	          </li>         
 	        </ul>
@@ -155,7 +155,7 @@ if(isset($_POST['stop'])){
              <div>
             	<div class="row">
             		<div class="col-md-4 col-lg-4">
-            			Prices Lists<select name="viewPrices" id="viewPrices" class="form-control" onChange="window.open(this.options[this.selectedIndex].value,'_top')">            		
+            			Prize Lists<select name="viewPrices" id="viewPrices" class="form-control" onChange="window.open(this.options[this.selectedIndex].value,'_top')">            		
 					                  <option selected disabled id="aw" name="aw" value="<?php echo $_GET["id"];?>"><?php echo $_GET['price_name']; ?></option>
 					                  	<?php
 								          	// SELECT PRICE AND INSERT INTO A DROPDOWN INPUT
@@ -389,13 +389,13 @@ if(isset($_POST['stop'])){
 					            <th>Id</th>
 					            <th>Employee Name</th>	
 					            <th>Win Date/Time</th>
-					            <th>Price Get</th>
-					            <th>Price Get Actions</th>		            
+					            <th>Prize Get</th>
+					            <th>Prize Get Actions</th>		            
 
 					        </tr>
 				    	</thead>
 				   		 <tbody>
-					    	 <?php
+					    	    <?php
 					                $select_winner = "SELECT * FROM winner ORDER BY date_time DESC";
 
 					                $win_query = sqlsrv_query($conn,$select_winner);              
@@ -409,15 +409,15 @@ if(isset($_POST['stop'])){
        								<td><?php echo $row["prices"];?></td>		
 					            
 					            <td class="td-actions text-center"> 
-						            <form method="POST" style="margin: 0px; padding: 0px;">
+						            <!-- <form method="POST"  style="padding: 0px;"> -->
 	                               	 <input type="hidden" value="<?php echo $row['id']; ?>" name="userAyDi">
-		                            <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="center" title="Return Prices" name="return" id="return">
+		                            <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="center" title="Return Prizes" name="return" id="return">
 		                              <i class="fa fa-reply"></i>&nbsp;Return<?php echo $row['id']; ?></button>
-		                            <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="center" title="Exchange Price" name="exchange" id="exchange">
+		                            <button  class="btn btn-default" data-toggle="modal" data-target="#exchange_price" title="Exchange Prize" name="exchange" id="exchange">
 		                              <i class="fa fa-exchange"></i>&nbsp;Exchange<?php echo $row['id']; ?></button>
-		                            </form>
-                                </td>	                   
-					               </tr>
+		                          <!-- </form> -->
+                            </td>	                   
+					              </tr>
 					         <?php endwhile;?>
 				   		     </tbody>
 				   		 <tfoot>
@@ -425,8 +425,8 @@ if(isset($_POST['stop'])){
 					            <th>Id</th>
 					            <th>Employee Name</th>	
 					            <th>Win Date/Time</th>
-					            <th>Price Get</th>
-					            <th>Price Get Actions</th>	           
+					            <th>Prize Get</th>
+					            <th>Prize Get Actions</th>	           
 					        </tr>
 				   		 </tfoot>
 				</table>		
@@ -450,7 +450,7 @@ if(isset($_POST['return'])){
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">          
-          <h5 class="modal-title">Add Prices </h5>
+          <h5 class="modal-title">Add Prizes </h5>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
           <form method="post">
@@ -460,7 +460,7 @@ if(isset($_POST['return'])){
 		        Quantity:&nbsp;<input class="form-control" type="number" id="quan" name="quan" min="0" required></input>
 		        </div>
 		        <div class="modal-footer">
-		        	<button  class="btn btn-success" id="add_price" name="add_price" value="submit">Add</button>
+		        	<button  class="btn btn-success" id="add_prize" name="add_prize" value="submit">Add</button>
 		          	<button  class="btn btn-default" data-dismiss="modal">Close</button>
 		        </div>
          </form>
@@ -469,9 +469,45 @@ if(isset($_POST['return'])){
   </div>
 </div>
 
+
+
+<!-- echange price modal -->
+<div class="container col-xs-4"> 
+  <div class="modal fade" id="exchange_price" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">          
+          <h5 class="modal-title">Exchange Prize </h5>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+          <form method="post">
+            <div class="modal-body">
+              <div class="row">
+                  <div class="col-md-5">
+                     Your Prize Name:&nbsp;<input class="form-control" type="text" id="product" name="product" required value=""></input>
+                  </div>
+                   <div class="col-md-2 col-xs-12 col-sm-12  text-center">                
+                      <br><h5><i class="fa fa-exchange"><br><h6>Exchange </h6></i></h5>         
+                  </div>
+                   <div class="col-md-5">
+                      Prize Name:&nbsp;<input class="form-control" type="text" id="product" name="product" required value=""></input>
+                  </div>
+              </div>           
+            </div>
+            <div class="modal-footer">
+              <button  class="btn btn-success" id="exchange_prize" name="exchange_prize" value="submit">Exchange</button>
+                <button  class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+         </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <?php
 
-if(isset($_POST["add_price"])){
+if(isset($_POST["add_prize"])){
   
   $product = ucwords($_POST["product"]);  
   $quantity = $_POST["quan"];
@@ -498,6 +534,7 @@ if(isset($_POST["add_price"])){
 	    $(document).ready( function () {
 	    $('#myTable').DataTable();
 	} );
+
 // show winners history log table
 	$(document).ready(function(){
 	    $("#view_history").click(function(){
@@ -513,8 +550,6 @@ if(isset($_POST["add_price"])){
 	       
 	    });
 	});
-
-
 
 // 3 dots loop
 var dots = window.setInterval( function() {
