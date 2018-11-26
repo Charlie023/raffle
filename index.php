@@ -353,11 +353,11 @@ if(isset($_POST['stop'])){
        								<td><?php echo $row["prices"];?></td>	                    
                          <td class="td-actions text-center" style="margin: 0px;" >
                                 <form method="POST">
-                                        <input type="hidden" value="<?php echo $row['id']; ?>" name="userAyDi">
+                                        <input type="hidden" value="<?php echo $row['id']; ?>" name="userAyDi" id="userAyDi">
                                         <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="center" title="Return Prizes" name="return" id="return">
                                          <i class="fa fa-reply"></i>&nbsp;Return</button>
                                        </form> 
-                                        <button  class="btn btn-default" data-toggle="modal" data-target="#exchange_price" title="Exchange Prize" name="exchange" id="exchange">
+                                        <button  class="btn btn-default"  title="Exchange Prize" name="exchange" id="exchange" onclick="exchangeModal(<?php echo $row['id'];?>)">
                                     <i class="fa fa-exchange"></i>&nbsp;Exchange</button>
 
                             </td>                          
@@ -378,6 +378,30 @@ if(isset($_POST['stop'])){
         </div>      
  	 </div>
 </div>
+
+<script type="text/javascript">
+  function exchangeModal(id){
+
+    var data = {"id" : id};
+    $.ajax({
+      url : 'exchangeModal.php',
+      method : "POST",
+      data : data,
+      success: function(data){
+        $('body').append(data);
+        $('#exModal').modal('toggle');
+       
+      },
+      error: function(){
+        alert("Something went wrong!");
+      }
+    });
+  }
+  
+</script>
+
+
+
 
 <?php
 if (isset($_POST['return'])) {
@@ -427,41 +451,7 @@ if (isset($_POST['return'])) {
   </div>
 </div>
 
-<!-- exchange prize modal -->
-<div class="container col-xs-4"> 
-  <div class="modal fade" id="exchange_price" role="dialog">
-    <div class="modal-dialog modal-md">
-      <div class="modal-content">
-        <div class="modal-header text-center">          
-          <h5 class="modal-title ">Exchange Prize </h5>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-          <form method="post" >
-            <div class="modal-body">
-            
-              <h6>Employee Name:&nbsp;<?php echo $feet['fname']?>&nbsp;<?php echo $feet['lname']?></h6><hr>
-              <h6>Items to be Exchanged</h6>
-              <div class="row">
-                  <div class="col-md-5">
-                     Employee's Prize Name:&nbsp;<input class="form-control" type="text" id="product" name="product" required value=""></input>
-                  </div>
-                   <div class="col-md-2 col-xs-12 col-sm-12  text-center">                
-                      <br><h5><i class="fa fa-exchange"><br><h6>Exchange to </h6></i></h5>         
-                  </div>
-                   <div class="col-md-5">
-                      Prize Name:&nbsp;<input class="form-control" type="text" id="product" name="product" required value=""></input>
-                  </div>
-              </div>           
-            </div>
-            <div class="modal-footer">
-              <button  class="btn btn-success" id="exchange_prize" name="exchange_prize" value="submit">Exchange</button>
-                <button  class="btn btn-default" data-dismiss="modal">Cancel</button>
-            </div>
-         </form>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 
 <?php
@@ -536,12 +526,13 @@ $( document ).ready(function() {
      e.preventDefault();
     });
 });
-
 </script>
+
+
   <footer class="container-fluid ">
  &copy;Nexus Technologies, Inc. &nbsp; <script>
           document.write(new Date().getFullYear())
-        </script>, made by Charlie Matanguihan <i class="fa fa-hand-spock-o"></i><i class="fa fa-hand-peace-o"></i>
+        </script>, <i class="fa fa-hand-spock-o"></i><i class="fa fa-hand-peace-o"></i>
         
 </footer>
  
