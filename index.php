@@ -5,9 +5,7 @@ if(isset($_POST["submit"])){
   
   $fname = ucwords($_POST["fname"]);
   $lname = ucwords($_POST["lname"]);
-  $yearsWorking = ucwords($_POST["num_years"]);
- 
-         
+  $yearsWorking = ucwords($_POST["num_years"]);         
             
              for ($i=1; $i <= $yearsWorking ; $i++) { 
             $sql = "INSERT INTO users (fname,lname) VALUES ('$fname','$lname') ";
@@ -77,17 +75,11 @@ if(isset($_POST['stop'])){
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
-  <link rel="stylesheet" type="text/css" href="bootstrap/css/raffleDesign.css">
-
-
-
-  
+  <link rel="stylesheet" type="text/css" href="bootstrap/css/raffleDesign.css">  
 
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
- 
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -103,8 +95,8 @@ if(isset($_POST['stop'])){
      	 <a class="navbar-brand" id="comp_name" name="comp_name"> Nexus Technologies, Inc.</a>
      	 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
         	aria-expanded="false" aria-label="Toggle navigation">
-        	<span class="navbar-toggler-icon" ></span> </button>
-	      	<div class="collapse navbar-collapse" id="navbarText" name="navbarText" >
+        	<span class="navbar-toggler-icon" ></span> </button>	      	
+          <div class="collapse navbar-collapse" id="navbarText" name="navbarText" >
 	        	<ul class="navbar-nav animate side-nav">         
 	          	<li class="nav-item">
 	           		<a  href="" id="addUser" name="addUser" style="width: 100%"> 
@@ -117,7 +109,6 @@ if(isset($_POST['stop'])){
 	        </ul>
 	   </div>
   </nav>
-
 
 <div  style="margin: 20px;color:green;margin-top: 100px;">
   <div class="container" >
@@ -145,12 +136,7 @@ if(isset($_POST['stop'])){
                     <button class="btn btn-success col-md-8 " name="submit" id="submit" value="submit" style="float: right;">Submit</button></hr>
                 </div> 
              </div>
-          </div> 
-
-          
-
-            <!-- select item drop down -->
-           
+          </div>        
 
              <div>
             	<div class="row">
@@ -178,8 +164,8 @@ if(isset($_POST['stop'])){
             	    <div class="col-md-6 col-lg-6"></div>         		
                 </div>
             </div> 
-             <!-- end select item drop down -->
-         
+
+             <!-- end select item drop down -->         
 
              <!-- selecting the value of select tag jquery,ajax-->
           <!--    <script type="text/javascript">
@@ -278,15 +264,10 @@ if(isset($_POST['stop'])){
 
                                                 $sel_prices = "SELECT quantity FROM prices WHERE id = $prod_id";
                                                 $sqq = sqlsrv_query($conn,$sel_prices);
-
                                                 
                                                   $update_prod = "UPDATE prices SET quantity = $prod_quantity-1 WHERE id = $prod_id";
                                                   $ups = sqlsrv_query($conn,$update_prod);
-                                                
 
-                                                 
-
-	                                                 
 	                                                }  
 	                                            }                      
 	                                         }                                
@@ -294,18 +275,14 @@ if(isset($_POST['stop'])){
 	                                    }
 	                                    else{
 	                                       echo ' <h3 class="col-sm-12"style="text-align: center" name="empty_db" id="empty_db">Empty Database! Insert User First.</h3>';
-	                                    }                                   
-	      
-	                            ?>                         
-
+	                                    }                                 
+	                            ?>                       
                             </div>                    
                         </div> 
                         </div>
                       <div class="col-md-4"></div>
                       </div>
-
-                  </div>          
-               
+                  </div>               
                   <div class="card-footer">
                          <div class="container">                                                
                                <form method="POST">
@@ -315,10 +292,7 @@ if(isset($_POST['stop'])){
                                   </div>   
                                   <div class=" col-lg-3" >
                                   
-                          <?php
-
-                            
-                             	  
+                          <?php                          
                                     $sql = "SELECT * FROM users";
                                     $params = array();
                                     $options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
@@ -340,7 +314,6 @@ if(isset($_POST['stop'])){
                                         	echo '<button  class="btn btn-success  btn-block" name="start" id="start" disabled style="color: #22" >Start</button>';                                    	
                                     	 }                   
                            ?> 
-
                                    </div> 
                                       
                                    <div class="col-lg-3 " >   
@@ -350,8 +323,7 @@ if(isset($_POST['stop'])){
                                        }else{
                                            echo '<button class="btn btn-danger btn-block" name="stop" id="stop" disabled >Stop</button>';
                                        }                                                       
-					               	?>
-                                        
+					               	?>                                        
                                    </div>
                                    <div class="col-lg-3 ">
                                      
@@ -377,13 +349,12 @@ if(isset($_POST['stop'])){
   		</div>
 </div><br>
 
-
 <div id="history" name="history" style="margin: 20px;color:green" >
   <div class="container">    
         <div class="jumbotron ">
         		<h2>Winners History Log</h2><hr>
         	<div class="table-responsive col-sm-12 col-xs-12">
-	          	<table id="myTable" class="display">
+	          	<table id="myTable" class="display nowrap dt-responsive " cellpadding="0">
 				    	<thead>
 					        <tr class=" text-center">
 					            <th>Id</th>
@@ -406,17 +377,16 @@ if(isset($_POST['stop'])){
 					            <td><?php echo $row["id"];?></td>
 					            <td><?php echo $row["fname"];?><?php echo '&nbsp;'?><?php echo $row["lname"];?></td>
        								<td><?php echo $row["date_time"];?></td>
-       								<td><?php echo $row["prices"];?></td>		
-					            
-					            <td class="td-actions text-center"> 
-						            <!-- <form method="POST"  style="padding: 0px;"> -->
-	                               	 <input type="hidden" value="<?php echo $row['id']; ?>" name="userAyDi">
-		                            <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="center" title="Return Prizes" name="return" id="return">
-		                              <i class="fa fa-reply"></i>&nbsp;Return<?php echo $row['id']; ?></button>
-		                            <button  class="btn btn-default" data-toggle="modal" data-target="#exchange_price" title="Exchange Prize" name="exchange" id="exchange">
-		                              <i class="fa fa-exchange"></i>&nbsp;Exchange<?php echo $row['id']; ?></button>
-		                          <!-- </form> -->
-                            </td>	                   
+       								<td><?php echo $row["prices"];?></td>	                    
+                         <td class="td-actions text-center" style="margin: 0px;" >
+                                <form method="POST">
+                                        <input type="hidden" value="<?php echo $row['id']; ?>" name="userAyDi">
+                                        <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="center" title="Return Prizes" name="return" id="return">
+                                         <i class="fa fa-reply"></i>&nbsp;Return</button>
+                                      </form> 
+                                        <button  class="btn btn-default" data-toggle="modal" data-target="#exchange_price" title="Exchange Prize" name="exchange" id="exchange">
+                                    <i class="fa fa-exchange"></i>&nbsp;Exchange</button>
+                            </td>                          
 					              </tr>
 					         <?php endwhile;?>
 				   		     </tbody>
@@ -436,15 +406,33 @@ if(isset($_POST['stop'])){
 </div>
 
 <?php
-if(isset($_POST['return'])){
+if (isset($_POST['return'])) {
+    $userAyDi = $_POST['userAyDi'];
+
+    $prize_return = "SELECT * FROM winner WHERE id = '$userAyDi'";
+    $qwerty = sqlsrv_query($conn,$prize_return);  
+    $peach = sqlsrv_fetch_array($qwerty);
+    $fee = $peach["prices"];  
+
+    $item = "Item Returned";
+    $dele = "UPDATE winner SET prices = '$item' WHERE id = '$userAyDi'";
+    $try = sqlsrv_query($conn,$dele);  
+    
+    $ins_prize = "UPDATE prices SET quantity = quantity + 1 WHERE price_name = '$fee' " ;
+    $huwaw = sqlsrv_query($conn,$ins_prize);
+
     echo '<script language="javascript">';
-    echo 'alert('.$row['id'].')';
+    echo 'alert("Item  '.$fee.'  Returned")';
     echo '</script>';
+
+
+     echo '<script>window.location.href = "http://192.168.66.186/raffle/index.php";</script>';
 }
 
 ?>
 
-<!-- add price modal -->
+
+<!-- add prize modal -->
 <div class="container col-xs-4"> 
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-sm">
@@ -455,12 +443,11 @@ if(isset($_POST['return'])){
         </div>
           <form method="post">
 		        <div class="modal-body">
-
 		        Product Name:&nbsp;<input class="form-control" type="text" id="product" name="product" required></input>
 		        Quantity:&nbsp;<input class="form-control" type="number" id="quan" name="quan" min="0" required></input>
 		        </div>
 		        <div class="modal-footer">
-		        	<button  class="btn btn-success" id="add_prize" name="add_prize" value="submit">Add</button>
+		        	<button  class="btn btn-success" id="add_prize" name="add_prize" value="submit" >Add</button>
 		          	<button  class="btn btn-default" data-dismiss="modal">Close</button>
 		        </div>
          </form>
@@ -470,24 +457,44 @@ if(isset($_POST['return'])){
 </div>
 
 
+<?php
 
-<!-- echange price modal -->
+    $userAyDi = $_POST['userAyDi'];
+
+    $exchange_return = "SELECT * FROM winner WHERE id = '$userAyDi'";
+    $qwert = sqlsrv_query($conn,$exchange_return);  
+    $peachy = sqlsrv_fetch_array($qwert);
+    
+    $feet = $peachy["prices"];  
+
+    echo '<script language="javascript">';
+    echo 'alert("  '. $feet.'  ")';
+    echo '</script>';
+
+     // echo '<script>window.location.href = "http://192.168.66.186/raffle/index.php";</script>';
+
+
+?>
+
+<!-- exchange prize modal -->
 <div class="container col-xs-4"> 
   <div class="modal fade" id="exchange_price" role="dialog">
     <div class="modal-dialog modal-md">
       <div class="modal-content">
-        <div class="modal-header">          
-          <h5 class="modal-title">Exchange Prize </h5>
+        <div class="modal-header text-center">          
+          <h5 class="modal-title ">Exchange Prize </h5>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
           <form method="post">
             <div class="modal-body">
+              <h6>Employee Name:&nbsp;<?php echo $feet['fname']?>&nbsp;<?php echo $feet['lname']?></h6><hr>
+              <h6>Items to be Exchanged</h6>
               <div class="row">
                   <div class="col-md-5">
-                     Your Prize Name:&nbsp;<input class="form-control" type="text" id="product" name="product" required value=""></input>
+                     Employee's Prize Name:&nbsp;<input class="form-control" type="text" id="product" name="product" required value=""></input>
                   </div>
                    <div class="col-md-2 col-xs-12 col-sm-12  text-center">                
-                      <br><h5><i class="fa fa-exchange"><br><h6>Exchange </h6></i></h5>         
+                      <br><h5><i class="fa fa-exchange"><br><h6>Exchange to </h6></i></h5>         
                   </div>
                    <div class="col-md-5">
                       Prize Name:&nbsp;<input class="form-control" type="text" id="product" name="product" required value=""></input>
@@ -504,35 +511,43 @@ if(isset($_POST['return'])){
   </div>
 </div>
 
-
 <?php
 
 if(isset($_POST["add_prize"])){
   
   $product = ucwords($_POST["product"]);  
   $quantity = $_POST["quan"];
-  $sql_ins = "INSERT INTO prices (price_name,quantity) VALUES ('$product','$quantity') ";
-  $inserty = sqlsrv_query($conn, $sql_ins);
-      
-              if($inserty){
+
+  $fetch_prizes_items = "SELECT * FROM prices WHERE price_name = '$product'";
+  $fpi = sqlsrv_query($conn,$fetch_prizes_items);
+  $fpi_fetch = sqlsrv_fetch_array($fpi);
+  $fpi_fetch_item = $fpi_fetch['price_name'];
+
+  if($fpi_fetch_item == $product){
+
+   $upp = "UPDATE prices SET quantity = quantity + '$quantity' WHERE price_name = '$fpi_fetch_item'";
+   $que_upp =sqlsrv_query($conn,$upp);
                   echo '<script language="javascript">';
                   echo 'alert("'.$product.' added!")';
                   echo '</script>';
-                  echo 'window.location.reload(true)';
-              }else{
-                  echo '<script language="javascript">';
-                  echo 'alert("Product not added!")';
+                   echo '<script>window.location.href = "http://192.168.66.186/raffle/index.php";</script>';
+  }else{
+
+      $sql_ins = "INSERT INTO prices (price_name,quantity) VALUES ('$product','$quantity') ";
+      $inserty = sqlsrv_query($conn, $sql_ins);
+          echo '<script language="javascript">';
+                  echo 'alert("'.$product.' added!")';
                   echo '</script>';
-              }             
-          }
+                   echo '<script>window.location.href = "http://192.168.66.186/raffle/index.php";</script>';
+     }                   
+  }
 ?>
-
-
 
 <script type="text/javascript">
   // data tables java script
 	    $(document).ready( function () {
 	    $('#myTable').DataTable();
+
 	} );
 
 // show winners history log table
@@ -542,7 +557,7 @@ if(isset($_POST["add_prize"])){
 	    });
 	});
 
-// show add user and hide side bar 
+// show  side bar 
 	$(document).ready(function(){
 	    $("#addUser").click(function(e){
 	        $("#add_user").toggle(1000);     	      
@@ -572,12 +587,16 @@ $( document ).ready(function() {
 
 </script>
   <footer class="container-fluid ">
- &copy; Charlie Matanguihan 
+ &copy;Nexus Technologies, Inc. &nbsp; <script>
+          document.write(new Date().getFullYear())
+        </script>, made with <i class="fa fa-heart"></i> by Charlie Matanguihan .\m/
+        
 </footer>
  
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"> -->
  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
 
 </body>
 </html>
