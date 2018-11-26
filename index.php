@@ -100,10 +100,10 @@ if(isset($_POST['stop'])){
 	        	<ul class="navbar-nav animate side-nav">         
 	          	<li class="nav-item">
 	           		<a  href="" id="addUser" name="addUser" style="width: 100%"> 
-	           		 	<i class="fa fa-plus"></i>Add User                   
+	           		 	<i class="fa fa-plus-circle"></i> Add User                   
 	           		</a>
 	           	 	<a href="" id="addPrice" name="addPrice" style="width: 100%" data-toggle="modal" data-target="#myModal"> 
-	            		<i class="fa fa-plus"></i>Add Prize                   
+	            		<i class="fa fa-plus-circle"></i> Add Prize                   
 	           		 </a>                   
 	          </li>         
 	        </ul>
@@ -163,33 +163,9 @@ if(isset($_POST['stop'])){
 	            		</div>   
             	    <div class="col-md-6 col-lg-6"></div>         		
                 </div>
-            </div> 
-
-             <!-- end select item drop down -->         
-
-             <!-- selecting the value of select tag jquery,ajax-->
-          <!--    <script type="text/javascript">
-             	$(document).ready(function(){ 
-					$("#viewPrices").change(function(){
-					 var selectedprices = $('#viewPrices').val(); 
-							// alert(selectedprices);
-
-						$.ajax({  
-			                url:"prices.php",  
-			                method:"POST",  
-			                data:{selectedprices:selectedprices},  
-			                success:function(data){  
-			                     $('#rresult').html(data);  
-			                }  
-			           }); 
-
-					});
-					 
-					});
-             </script> -->
-             
-
+            </div>        
           </form> 
+
               <div class="card border border-info  card-plain" style=" background-color: #2224; background-image: url(images/backg.jpg);background-repeat: no-repeat;  background-size: 100% 100%; "> 	
                       <div class="card-body"><br>                        
                         <center><h2 style="color: white;">Welcome!</h2></center>
@@ -200,7 +176,6 @@ if(isset($_POST['stop'])){
                            			 <div class="container" style="color:green">
 
                                     <div id="raffles" name="raffles"></div>
-
 	                             <?php              
 	                                    $sql = "SELECT * FROM users";
 	                                    $params = array();
@@ -222,8 +197,7 @@ if(isset($_POST['stop'])){
 	                                             echo ' <h3 class="col-sm-2 col-xs-2 col-lg-12"style="text-align: center" name="choose" id="choose">Choosing user <span id="wait">.</span></h3>';  
 	                                           }else{                    
 	                                          
-	                                       }  
-	                                         
+	                                       }  	                                         
 	                                         if(isset($_POST['stop'])){
                                           $prod_id = $_GET["id"];
                                           $prod_name = $_GET["price_name"];
@@ -254,7 +228,7 @@ if(isset($_POST['stop'])){
 	                                                     $id = $get_row['id'];
 	                                                     $fname = $get_row['fname'];
 	                                                     $lname = $get_row['lname'];
-	                                                $date = date("Y-m-d H:i:s"); 
+	                                                     $date = date("Y-m-d H:i:s"); 
 
 	                                               $lipat_table = "INSERT INTO winner(id,fname,lname,date_time,prices) VALUES ('$id','$fname','$lname','$date','$prod_name')";    
 	                                               $lipattt = sqlsrv_query($conn,$lipat_table);
@@ -270,8 +244,7 @@ if(isset($_POST['stop'])){
 
 	                                                }  
 	                                            }                      
-	                                         }                                
-	                                  
+	                                         }                              	                                  
 	                                    }
 	                                    else{
 	                                       echo ' <h3 class="col-sm-12"style="text-align: center" name="empty_db" id="empty_db">Empty Database! Insert User First.</h3>';
@@ -290,8 +263,7 @@ if(isset($_POST['stop'])){
                                   <div class=" col-lg-3">
                                     
                                   </div>   
-                                  <div class=" col-lg-3" >
-                                  
+                                  <div class=" col-lg-3" >                                  
                           <?php                          
                                     $sql = "SELECT * FROM users";
                                     $params = array();
@@ -317,13 +289,14 @@ if(isset($_POST['stop'])){
                                    </div> 
                                       
                                    <div class="col-lg-3 " >   
-                                      <?php
+
+                            <?php
                                        if (isset($_POST['start'])) {
                                            echo '<button class="btn btn-danger btn-block" name="stop" id="stop" >Stop</button>';
                                        }else{
                                            echo '<button class="btn btn-danger btn-block" name="stop" id="stop" disabled >Stop</button>';
                                        }                                                       
-					               	?>                                        
+					               	   ?>                                        
                                    </div>
                                    <div class="col-lg-3 ">
                                      
@@ -344,7 +317,7 @@ if(isset($_POST['stop'])){
 			   <div class="col-lg-4">          
 			  </div>
 			  <div class="col-lg-4">
-			        <button class="btn btn-success col-md-8 " name="view_history" id="view_history" style="float: right;" >View History</button></hr>
+			        <button class="btn btn-success col-md-8 " name="view_history" id="view_history" style="float: right;" ><i class="fa fa-eye"></i>  View History</button></hr>
 			  </div>
   		</div>
 </div><br>
@@ -355,7 +328,7 @@ if(isset($_POST['stop'])){
         		<h2>Winners History Log</h2><hr>
         	<div class="table-responsive col-sm-12 col-xs-12">
 	          	<table id="myTable" class="display nowrap dt-responsive " cellpadding="0">
-				    	<thead>
+				    	<thead >
 					        <tr class=" text-center">
 					            <th>Id</th>
 					            <th>Employee Name</th>	
@@ -373,7 +346,7 @@ if(isset($_POST['stop'])){
 					               while ( $row = sqlsrv_fetch_array($win_query)): {           
 					                } 
 					              ?>
-					        <tr>
+					        <tr >
 					            <td><?php echo $row["id"];?></td>
 					            <td><?php echo $row["fname"];?><?php echo '&nbsp;'?><?php echo $row["lname"];?></td>
        								<td><?php echo $row["date_time"];?></td>
@@ -383,9 +356,10 @@ if(isset($_POST['stop'])){
                                         <input type="hidden" value="<?php echo $row['id']; ?>" name="userAyDi">
                                         <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="center" title="Return Prizes" name="return" id="return">
                                          <i class="fa fa-reply"></i>&nbsp;Return</button>
-                                      </form> 
+                                       </form> 
                                         <button  class="btn btn-default" data-toggle="modal" data-target="#exchange_price" title="Exchange Prize" name="exchange" id="exchange">
                                     <i class="fa fa-exchange"></i>&nbsp;Exchange</button>
+
                             </td>                          
 					              </tr>
 					         <?php endwhile;?>
@@ -424,13 +398,10 @@ if (isset($_POST['return'])) {
     echo '<script language="javascript">';
     echo 'alert("Item  '.$fee.'  Returned")';
     echo '</script>';
-
-
-     echo '<script>window.location.href = "http://192.168.66.186/raffle/index.php";</script>';
+    echo '<script>window.location.href = "http://192.168.66.186/raffle/index.php";</script>';
 }
 
 ?>
-
 
 <!-- add prize modal -->
 <div class="container col-xs-4"> 
@@ -456,26 +427,6 @@ if (isset($_POST['return'])) {
   </div>
 </div>
 
-
-<?php
-
-    $userAyDi = $_POST['userAyDi'];
-
-    $exchange_return = "SELECT * FROM winner WHERE id = '$userAyDi'";
-    $qwert = sqlsrv_query($conn,$exchange_return);  
-    $peachy = sqlsrv_fetch_array($qwert);
-    
-    $feet = $peachy["prices"];  
-
-    echo '<script language="javascript">';
-    echo 'alert("  '. $feet.'  ")';
-    echo '</script>';
-
-     // echo '<script>window.location.href = "http://192.168.66.186/raffle/index.php";</script>';
-
-
-?>
-
 <!-- exchange prize modal -->
 <div class="container col-xs-4"> 
   <div class="modal fade" id="exchange_price" role="dialog">
@@ -485,8 +436,9 @@ if (isset($_POST['return'])) {
           <h5 class="modal-title ">Exchange Prize </h5>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-          <form method="post">
+          <form method="post" >
             <div class="modal-body">
+            
               <h6>Employee Name:&nbsp;<?php echo $feet['fname']?>&nbsp;<?php echo $feet['lname']?></h6><hr>
               <h6>Items to be Exchanged</h6>
               <div class="row">
@@ -510,6 +462,7 @@ if (isset($_POST['return'])) {
     </div>
   </div>
 </div>
+
 
 <?php
 
@@ -561,8 +514,7 @@ if(isset($_POST["add_prize"])){
 	$(document).ready(function(){
 	    $("#addUser").click(function(e){
 	        $("#add_user").toggle(1000);     	      
-	        e.preventDefault();
-	       
+	        e.preventDefault();	       
 	    });
 	});
 
@@ -589,12 +541,12 @@ $( document ).ready(function() {
   <footer class="container-fluid ">
  &copy;Nexus Technologies, Inc. &nbsp; <script>
           document.write(new Date().getFullYear())
-        </script>, made with <i class="fa fa-heart"></i> by Charlie Matanguihan .\m/
+        </script>, made by Charlie Matanguihan <i class="fa fa-hand-spock-o"></i><i class="fa fa-hand-peace-o"></i>
         
 </footer>
  
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"> -->
+
  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
 
