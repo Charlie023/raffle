@@ -97,14 +97,17 @@ if(isset($_POST['stop'])){
         	aria-expanded="false" aria-label="Toggle navigation">
         	<span class="navbar-toggler-icon" ></span> </button>	      	
           <div class="collapse navbar-collapse" id="navbarText" name="navbarText" >
-	        	<ul class="navbar-nav animate side-nav">         
+	        	<ul class="navbar-nav animate side-nav ">         
 	          	<li class="nav-item">
 	           		<a  href="" id="addUser" name="addUser" style="width: 100%"> 
 	           		 	<i class="fa fa-plus-circle"></i> Add User                   
 	           		</a>
 	           	 	<a href="" id="addPrice" name="addPrice" style="width: 100%" data-toggle="modal" data-target="#myModal"> 
 	            		<i class="fa fa-plus-circle"></i> Add Prize                   
-	           		 </a>                   
+	           		 </a>   
+                  <a href="prizelistpdf.php" id="view_prize_list" name="view_prize_list" style="width: 100%" target="_blank"> 
+                    <i class="fa fa-eye"></i> View Prize List Table                  
+                 </a>                 
 	          </li>         
 	        </ul>
 	   </div>
@@ -142,7 +145,8 @@ if(isset($_POST['stop'])){
             	<div class="row">
             		<div class="col-md-4 col-lg-4">
             			Prize Lists<select name="viewPrices" id="viewPrices" class="form-control" onChange="window.open(this.options[this.selectedIndex].value,'_top')">            		
-					                  <option selected disabled id="aw" name="aw" value="<?php echo $_GET["id"];?>"><?php echo $_GET['price_name']; ?></option>
+					                  
+                            <option selected disabled id="aw" name="aw" value="<?php echo $_GET["id"];?>"><?php echo $_GET['price_name']; ?></option>
 					                  	<?php
 								          	// SELECT PRICE AND INSERT INTO A DROPDOWN INPUT
 								          $dp = "SELECT * FROM prices WHERE quantity > 0";
@@ -152,14 +156,15 @@ if(isset($_POST['stop'])){
 
 								          ?>
 								        <form method="post">
-								        	<option id="droplist" name="droplist"  value="index.php?id=<?php echo $cout['id'];?>&price_name=<?php echo $cout['price_name'];?>&quantity=<?php echo $cout['quantity'];?>"><?php echo $cout['price_name'];?></option> 	
+								        	<option id="droplist" name="droplist"  value="index.php?id=<?php echo $cout['id'];?>&price_name=<?php echo $cout['price_name'];?>&quantity=<?php echo $cout['quantity'];?>">
+                          <?php echo $cout['price_name'];?></option> 	
 								        </form>	                  
   										<?php endwhile;?>  													
 			            			</select>
 			              		</div>
 
 	            				<div class="col-md-2 col-md-2">
-	            			Quantity <input id="price_quan" name="price_quan" class="form-control" value="<?php echo $_GET['quantity']; ?>"></input>
+	            			Remaining Quantity <center><h4 id="price_quan" name="price_quan"><?php echo $_GET['quantity']; ?></h4></center>
 	            		</div>   
             	    <div class="col-md-6 col-lg-6"></div>         		
                 </div>
@@ -168,7 +173,7 @@ if(isset($_POST['stop'])){
 
               <div class="card border border-info  card-plain" style=" background-color: #2224; background-image: url(images/backg.jpg);background-repeat: no-repeat;  background-size: 100% 100%; "> 	
                       <div class="card-body"><br>                        
-                        <center><h2 style="color: white;">Welcome!</h2></center>
+                        <center><h3 style="color: white;">Welcome!</h2></center>
                         <div class="row">
                           <div class="col-md-4"></div>
                          	 <div class="col-md-4">
@@ -330,11 +335,11 @@ if(isset($_POST['stop'])){
 	          	<table id="myTable" class="display nowrap dt-responsive " cellpadding="0">
 				    	<thead >
 					        <tr class=" text-center">
-					            <th>Id</th>
-					            <th>Employee Name</th>	
 					            <th>Win Date/Time</th>
-					            <th>Prize Get</th>
-					            <th>Prize Get Actions</th>		            
+					            <th>Employee Name</th>					            
+					            <th>Prize </th>
+					            <th>Actions</th>	
+                      <th>Remarks</th>  	            
 
 					        </tr>
 				    	</thead>
@@ -349,24 +354,22 @@ if(isset($_POST['stop'])){
                                    $lname = $row["lname"];
                                    $dt = $row["date_time"];
                                    $prize = $row["prices"];
-
-
-                    echo 
+                                   $remarks = $row["remarks"];
+                        echo 
                       '
-                      <tr class="" >
-                      <td>'.$id.'</td>
-                      <td>'.$fname.' '.$lname.'</td>
-                      <td>'.$dt.'</td>
-                      <td>'.$prize.'</td>
-                         <td class="td-actions text-center" style="margin: 0px;" >
-                              <form method="POST">                                
-                                    <input type="hidden" value="'.$id.'" name="userAyDi" id="userAyDi">
-                                    <button type="Submit" class="btn btn-default" data-toggle="tooltip" title="Return Prizes" name="return" id="return">
-                                    <i class="fa fa-reply"></i>&nbsp;Return</button>  
-                                    </form>                                  
-                                    <button  class="btn btn-default" data-toggle="modal" data-target="#exModal'.$id.'"  title="Exchange Prize" name="exchange" id="exchange" >
-                               <i class="fa fa-exchange"></i>&nbsp;Exchange</button>
-                            </td>                          
+                      <tr class=""  >
+                         <td>'.$dt.'</td>
+                          <td>'.$fname.' '.$lname.'</td>
+                          
+                          <td>'.$prize.'</td> 
+                          <td class="td-actions text-center" style="width:10%;" >                                                    
+                                     <input type="hidden" value="'.$id.'" name="userAyDi" id="userAyDi">                                                                      
+                                      <button type="Submit" class="btn btn-default" data-toggle="modal" data-target="#retModal'.$id.'" title="Return Prizes" name="return" id="return">
+                                      <i class="fa fa-reply"></i>&nbsp;Return</button>                                                                                                     
+                                      <button  class="btn btn-default" data-toggle="modal" data-target="#exModal'.$id.'"  title="Exchange Prize" name="exchange" id="exchange" >
+                                   <i class="fa fa-exchange"></i>&nbsp;Exchange</button> 
+                            </td>
+                            <td>'.$remarks.'</td>                                                       
                         </tr>
                         
                         <div class="container col-xs-4" style="color:black"> 
@@ -380,22 +383,73 @@ if(isset($_POST['stop'])){
                                     <form method="post" >
                                       <div class="modal-body">            
                                         <h6>Employee Name: '.$fname.'  '.$lname.' </h6><hr>
-                                        <h6><center>Items to be Exchange</center></h6>
+                                        <h6><center>Items to be Returned</center></h6>
                                         <div class="row">
                                             <div class="col-md-5">
                                             <input class="form-control" type="hidden" id="prody1" name="prody1" value="'.$prize.'" ></input>
                                                Employees Prize Name:&nbsp;<center><input class="form-control" type="text" id="prody" name="prody" value="'.$prize.'" disabled ></input></center>
-                                            </div>
-                                             <div class="col-md-2 col-xs-12 col-sm-12  text-center">                
-                                                <br><h5><i class="fa fa-exchange"><br><h6>Exchange to </h6></i></h5>         
-                                            </div>
-                                             <div class="col-md-5">
-                                                Prize Name:&nbsp;<input class="form-control" type="text" id="prod_price" name="prod_price" required ></input>
+                                                  </div>
+                                                   <div class="col-md-2 col-xs-12 col-sm-12  text-center">                
+                                                      <br><h5><i class="fa fa-exchange"><br><h6>Exchange to </h6></i></h5>         
+                                                  </div>
+                                                   <div class="col-md-5">'?>
+
+                                          Prize Lists<select name="viewPrices" id="viewPrices" class="form-control">                
+                            
+                                            <option selected disabled id="aw" name="aw" value="<?php echo $_GET["id"];?>"><?php echo $_GET['price_name']; ?></option>
+                                              <?php
+                                            // SELECT PRICE AND INSERT INTO A DROPDOWN INPUT
+                                          $dp = "SELECT * FROM prices WHERE quantity > 0";
+                                          $sqls = sqlsrv_query($conn,$dp);
+                                          while ($cout = sqlsrv_fetch_array($sqls)): {                          
+                                          }
+
+                                          ?>
+                                        <form method="post">
+                                          <option id="droplist" name="droplist"  value="index.php?id=<?php echo $cout['id'];?>&price_name=<?php echo $cout['price_name'];?>&quantity=<?php echo $cout['quantity'];?>">
+                                          <?php echo $cout['price_name'];?></option>  
+                                        </form>                   
+                                      <?php endwhile;?>                           
+                                        </select>                                  
+                                                
+
+                                     <?php echo'                                                          
                                             </div>
                                         </div>           
                                       </div>
                                       <div class="modal-footer">
                                         <button  class="btn btn-success" id="exchange_prize" name="exchange_prize" value="submit">Exchange</button>
+                                          <button  class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                      </div>
+                                   </form>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                           <div class="container col-xs-4" style="color:black"> 
+                            <div class="modal fade" id="retModal'.$id.'" role="document">
+                              <div class="modal-dialog modal-md"> 
+                                <div class="modal-content">
+                                  <div class="modal-header text-center">          
+                                    <h5 class="modal-title ">Return Prize </h5>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                  </div>
+                                    <form method="post" >
+                                      <div class="modal-body"> 
+                                      <h6>Item to be Returned</h6>
+
+                                        <h6>Prize Name: '.$prize.'</h6><hr> 
+                                        
+                                        <div class="row">
+                                            <div class="col-md-12">    
+                                              <input type="hidden" value="'.$id.'" name="userAyd" id="userAyd">                                        
+                                               Remarks:&nbsp;<center><textarea class="form-control" type="text" id="remarks" name="remarks" rows="3" ></textarea></center>
+                                            </div>                                                                                      
+                                        </div>           
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button  class="btn btn-success" id="return_prize_btn" name="return_prize_btn" value="submit">Return</button>
                                           <button  class="btn btn-default" data-dismiss="modal">Cancel</button>
                                       </div>
                                    </form>
@@ -410,11 +464,11 @@ if(isset($_POST['stop'])){
 				   		     </tbody>
       				   		 <tfoot>
       				   		 	 <tr class=" text-center">
-      					            <th>Id</th>
-      					            <th>Employee Name</th>	
       					            <th>Win Date/Time</th>
-      					            <th>Prize Get</th>
-      					            <th>Prize Get Actions</th>	           
+      					            <th>Employee Name</th>      					            
+      					            <th>Prize</th>
+      					            <th>Actions</th>	
+                            <th>Remarks</th>             
       					        </tr>
       				   		</tfoot>
 				        </table>		
@@ -447,31 +501,44 @@ if (isset($_POST['exchange_prize'])) {
           echo '<script language="javascript">';
           echo 'alert("Item Exchanged!")';
           echo '</script>';        
-          echo '<script>window.location.href = "http://192.168.66.186/raffle/index.php";</script>';  
+          echo '<script>window.location.href = "http://192.168.66.186/raffle/index.php";</script>';
+
 
 }
 ?>
 
 <?php
-if (isset($_POST['return'])) {
-    $userAyDi = $_POST['userAyDi'];
+if (isset($_POST['return_prize_btn'])) {
 
-    $prize_return = "SELECT * FROM winner WHERE id = '$userAyDi'";
+    $userID = $_POST['userAyd'];
+    $remarks = $_POST['remarks'];
+
+    $prize_return = "SELECT * FROM winner WHERE id = '$userID'";
     $qwerty = sqlsrv_query($conn,$prize_return);  
     $peach = sqlsrv_fetch_array($qwerty);
     $fee = $peach["prices"];  
 
     $item = "Item Returned";
-    $dele = "UPDATE winner SET prices = '$item' WHERE id = '$userAyDi'";
+    $dele = "UPDATE winner SET prices = '$item' WHERE id = '$userID'";
     $try = sqlsrv_query($conn,$dele);  
     
     $ins_prize = "UPDATE prices SET quantity = quantity + 1 WHERE price_name = '$fee' " ;
     $huwaw = sqlsrv_query($conn,$ins_prize);
 
-    echo '<script language="javascript">';
-    echo 'alert("Item  '.$fee.'  Returned")';
+    $insert_remark = "UPDATE winner SET remarks = '$remarks' WHERE id = '$userID'";
+    $insert_remark_query=sqlsrv_query($conn,$insert_remark);
+
+if ($insert_remark_query) {
+  echo '<script language="javascript">';
+    echo 'alert("Item Returned")';
     echo '</script>';
     echo '<script>window.location.href = "http://192.168.66.186/raffle/index.php";</script>';
+}else{
+   echo '<script language="javascript">';
+    echo 'alert("Item Not Returned")';
+    echo '</script>';
+}
+    
 }
 
 ?>
@@ -578,6 +645,10 @@ $( document ).ready(function() {
      e.preventDefault();
     });
 });
+
+
+
+
 </script>
 
 
