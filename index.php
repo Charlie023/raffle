@@ -343,65 +343,114 @@ if(isset($_POST['stop'])){
 					                $select_winner = "SELECT * FROM winner ORDER BY date_time DESC";
 
 					                $win_query = sqlsrv_query($conn,$select_winner);              
-					               while ( $row = sqlsrv_fetch_array($win_query)): {           
-					                } 
-					              ?>
-					        <tr >
-					            <td><?php echo $row["id"];?></td>
-					            <td><?php echo $row["fname"];?><?php echo '&nbsp;'?><?php echo $row["lname"];?></td>
-       								<td><?php echo $row["date_time"];?></td>
-       								<td><?php echo $row["prices"];?></td>	                    
-                         <td class="td-actions text-center" style="margin: 0px;" >
-                                <form method="POST">
-                                        <input type="hidden" value="<?php echo $row['id']; ?>" name="userAyDi" id="userAyDi">
-                                        <button type="submit" class="btn btn-default" data-toggle="tooltip" data-placement="center" title="Return Prizes" name="return" id="return">
-                                         <i class="fa fa-reply"></i>&nbsp;Return</button>
-                                       </form> 
-                                        <button  class="btn btn-default"  title="Exchange Prize" name="exchange" id="exchange" onclick="exchangeModal(<?php echo $row['id'];?>)">
-                                    <i class="fa fa-exchange"></i>&nbsp;Exchange</button>
+					               while ( $row = sqlsrv_fetch_array($win_query)) {           
+					                         $id = $row["id"];
+                                   $fname = $row["fname"];
+                                   $lname = $row["lname"];
+                                   $dt = $row["date_time"];
+                                   $prize = $row["prices"];
 
+
+                    echo 
+                      '
+                      <tr class="" >
+                      <td>'.$id.'</td>
+                      <td>'.$fname.' '.$lname.'</td>
+                      <td>'.$dt.'</td>
+                      <td>'.$prize.'</td>
+                         <td class="td-actions text-center" style="margin: 0px;" >
+                              <form method="POST">                                
+                                    <input type="hidden" value="'.$id.'" name="userAyDi" id="userAyDi">
+                                    <button type="Submit" class="btn btn-default" data-toggle="tooltip" title="Return Prizes" name="return" id="return">
+                                    <i class="fa fa-reply"></i>&nbsp;Return</button>  
+                                    </form>                                  
+                                    <button  class="btn btn-default" data-toggle="modal" data-target="#exModal'.$id.'"  title="Exchange Prize" name="exchange" id="exchange" >
+                               <i class="fa fa-exchange"></i>&nbsp;Exchange</button>
                             </td>                          
-					              </tr>
-					         <?php endwhile;?>
+                        </tr>
+                        
+                        <div class="container col-xs-4" style="color:black"> 
+                            <div class="modal fade" id="exModal'.$id.'" role="document">
+                              <div class="modal-dialog modal-md"> 
+                                <div class="modal-content">
+                                  <div class="modal-header text-center">          
+                                    <h5 class="modal-title ">Exchange Prize </h5>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                  </div>
+                                    <form method="post" >
+                                      <div class="modal-body">            
+                                        <h6>Employee Name: '.$fname.'  '.$lname.' </h6><hr>
+                                        <h6><center>Items to be Exchange</center></h6>
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                            <input class="form-control" type="hidden" id="prody1" name="prody1" value="'.$prize.'" ></input>
+                                               Employees Prize Name:&nbsp;<center><input class="form-control" type="text" id="prody" name="prody" value="'.$prize.'" disabled ></input></center>
+                                            </div>
+                                             <div class="col-md-2 col-xs-12 col-sm-12  text-center">                
+                                                <br><h5><i class="fa fa-exchange"><br><h6>Exchange to </h6></i></h5>         
+                                            </div>
+                                             <div class="col-md-5">
+                                                Prize Name:&nbsp;<input class="form-control" type="text" id="prod_price" name="prod_price" required ></input>
+                                            </div>
+                                        </div>           
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button  class="btn btn-success" id="exchange_prize" name="exchange_prize" value="submit">Exchange</button>
+                                          <button  class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                      </div>
+                                   </form>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ';
+                          } 
+					              ?>				
+					      
 				   		     </tbody>
-				   		 <tfoot>
-				   		 	 <tr class=" text-center">
-					            <th>Id</th>
-					            <th>Employee Name</th>	
-					            <th>Win Date/Time</th>
-					            <th>Prize Get</th>
-					            <th>Prize Get Actions</th>	           
-					        </tr>
-				   		 </tfoot>
-				</table>		
-				</div>
+      				   		 <tfoot>
+      				   		 	 <tr class=" text-center">
+      					            <th>Id</th>
+      					            <th>Employee Name</th>	
+      					            <th>Win Date/Time</th>
+      					            <th>Prize Get</th>
+      					            <th>Prize Get Actions</th>	           
+      					        </tr>
+      				   		</tfoot>
+				        </table>		
+				    </div>
         </div>      
  	 </div>
 </div>
 
-<script type="text/javascript">
-  function exchangeModal(id){
+<?php
+if (isset($_POST['exchange_prize'])) {
+  $prize = ucwords($_POST['prody1']);
+  $ex_prize = ucwords($_POST['prod_price']);
 
-    var data = {"id" : id};
-    $.ajax({
-      url : 'exchangeModal.php',
-      method : "POST",
-      data : data,
-      success: function(data){
-        $('body').append(data);
-        $('#exModal').modal('toggle');
-       
-      },
-      error: function(){
-        alert("Something went wrong!");
-      }
-    });
-  }
-  
-</script>
+      $sqll="SELECT * FROM prices WHERE price_name = '$prize'";
+      $qwertys = sqlsrv_query($conn,$sqll);
+      $prize_fetch = sqlsrv_fetch_array($qwertys);
+      $raw = $prize_fetch['price_name'];      
+          
+          // if ($raw == $prize) {
+            $update_prize = "UPDATE prices SET quantity = quantity+1 WHERE price_name = '$raw'";
+            $up_query = sqlsrv_query($conn,$update_prize);
+          // }else{
+          //     $one = 1;
+          //    $insert_new_prize = "INSERT INTO prices (price_name,quantity) VALUES ('$product','$one') ";
+          //    $inp = sqlsrv_query($conn, $insert_new_prize);       // }      
 
+          $update_winner_prize = "UPDATE winner SET prices = '$ex_prize' WHERE id = '$id'";
+          $uwp = sqlsrv_query($conn,$update_winner_prize);
 
+          echo '<script language="javascript">';
+          echo 'alert("Item Exchanged!")';
+          echo '</script>';        
+          echo '<script>window.location.href = "http://192.168.66.186/raffle/index.php";</script>';  
 
+}
+?>
 
 <?php
 if (isset($_POST['return'])) {
@@ -450,6 +499,9 @@ if (isset($_POST['return'])) {
     </div>
   </div>
 </div>
+
+
+
 
 
 
