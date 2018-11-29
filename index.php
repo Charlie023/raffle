@@ -106,12 +106,12 @@ if(isset($_POST['stop'])){
 	           	 	<a href="" id="addPrice" name="addPrice" style="width: 100%" data-toggle="modal" data-target="#myModal"> 
 	            		<i class="fa fa-plus-circle"></i> Add Prize                   
 	           		 </a>   
-                  <a href="prizelistpdf.php" id="view_prize_list" name="view_prize_list" style="width: 100%" target="_blank"> 
+               <!--    <a href="prizelistpdf.php" id="view_prize_list" name="view_prize_list" style="width: 100%" target="_blank"> 
                     <i class="fa fa-eye"></i> View Prize List Table                  
                  </a>  
                  <a href="winnerslistpdf.php" id="view_prize_list" name="view_prize_list" style="width: 100%" target="_blank"> 
                     <i class="fa fa-eye"></i> View Winners List Table                  
-                 </a>                 
+                 </a> -->                 
 	          </li>         
 	        </ul>
 	   </div>
@@ -207,8 +207,8 @@ if(isset($_POST['stop'])){
                         <center><h3 style="color: white;">Welcome!</h2></center>
                         <div class="row">
                           <div class="col-md-4"></div>
-                         	 <div class="col-md-4">
-                         		 <div class="jumbotron jumbotron-fluid"  >                            
+                         	 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-4">
+                         		 <div class="jumbotron jumbotron-fluid "  >                            
                            			 <div class="container" style="color:green">
 
                                     <div id="raffles" name="raffles"></div>
@@ -246,9 +246,7 @@ if(isset($_POST['stop'])){
                                                   }  else{
 
                                                    echo ' <h3 class="col-sm-12 col-xs-12 col-lg-12"style="text-align: center" name="choose" id="choose">Choosing user <span id="wait">.</span></h3>';  
-                                                  }
-
-                                                
+                                                  }                                               
 
 
 
@@ -395,7 +393,17 @@ if(isset($_POST['stop'])){
 <div id="history" name="history" style="margin: 20px;color:green" >
   <div class="container">    
         <div class="jumbotron ">
-        		<h2>Winners History Log</h2><hr>
+          <div class="row">
+            <div class="col-md-10">
+              <h2>Winners History Log</h2><hr>
+            </div>
+             <div class="col-md-2">
+                <button class="btn btn-success  " name="view_history" id="view_history" style="float: right;" ><i class="fa fa-print"></i> Print to PDF</button></hr>
+             </div>
+            
+
+          </div>
+        		
         	<div class="table-responsive col-sm-12 col-xs-12">
 	          	<table id="myTable" class="display nowrap dt-responsive " cellpadding="0">
 				    	<thead >
@@ -572,14 +580,15 @@ include "connect.php";
               $add_prize ="UPDATE prices SET quantity = quantity + 1 WHERE price_name = '$pname1' ";
               $addp_query = sqlsrv_query($conn,$add_prize);    
 
-              $update_winner_prize = "UPDATE winner SET prices = '$pname' WHERE id = ' $perID'";
+              $rem = $pname1. " exchanged with " .$pname;
+              $update_winner_prize = "UPDATE winner SET prices = '$pname',remarks = '$rem' WHERE id = ' $perID'";
               $uwp = sqlsrv_query($conn,$update_winner_prize) or die(print_r( sqlsrv_errors(), true));
               
 
               echo '<script language="javascript">';
               echo 'alert("Item Exchanged!")';
               echo '</script>';
-              
+
                echo '<script>window.location.href = "http://192.168.66.186/raffle/index.php";</script>';
          
 }
