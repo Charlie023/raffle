@@ -25,7 +25,7 @@ if(isset($_POST["submit"])){
            
         
 if(isset($_POST['stop'])){
-  $sqly="SELECT id FROM users ORDER BY RAND()";
+  $sqly="SELECT id FROM users ORDER BY id";
   $result=sqlsrv_query($conn, $sqly); 
   $datas = array();   
   
@@ -89,13 +89,14 @@ if(isset($_POST['stop'])){
 
 <body>
 
- <nav class="navbar header-top fixed-top navbar-expand-lg navbar-light bg-light" >
+ <nav class="navbar header-top sticky-top navbar-expand-lg  navbar-light bg-light" >
       <span class="navbar-toggler-icon leftmenutrigger"></span>
       	<a class="navbar-brand" href="#"><img src="images/nexuslogo.png" style="width: 40px; height: 40px;padding: 0px; margin: 0px;"></a>
      	 <a class="navbar-brand" id="comp_name" name="comp_name"> Nexus Technologies, Inc.</a>
      	 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
         	aria-expanded="false" aria-label="Toggle navigation">
         	<span class="navbar-toggler-icon" ></span> </button>	      	
+         
           <div class="collapse navbar-collapse" id="navbarText" name="navbarText" >
 	        	<ul class="navbar-nav animate side-nav ">         
 	          	<li class="nav-item">
@@ -107,13 +108,16 @@ if(isset($_POST['stop'])){
 	           		 </a>   
                   <a href="prizelistpdf.php" id="view_prize_list" name="view_prize_list" style="width: 100%" target="_blank"> 
                     <i class="fa fa-eye"></i> View Prize List Table                  
+                 </a>  
+                 <a href="winnerslistpdf.php" id="view_prize_list" name="view_prize_list" style="width: 100%" target="_blank"> 
+                    <i class="fa fa-eye"></i> View Winners List Table                  
                  </a>                 
 	          </li>         
 	        </ul>
 	   </div>
   </nav>
 
-<div  style="margin: 20px;color:green;margin-top: 100px;">
+<div  style="margin: 20px;color:green;margin-top: 30px;">
   <div class="container" >
       <div class="jumbotron ">
       <h2>Raffle System</h2><hr>
@@ -156,7 +160,7 @@ if(isset($_POST['stop'])){
 
 								          ?>
 								        <form method="post">
-								        	<option id="droplist" name="droplist"  value="index.php?id=<?php echo $cout['id'];?>&price_name=<?php echo $cout['price_name'];?>&quantity=<?php echo $cout['quantity'];?>">
+								        	<option id="droplist" name="droplist"  value="index.php?id=<?php echo $cout['id'];?>&price_name=<?php echo $cout['price_name'];?>">
                           <?php echo $cout['price_name'];?></option> 	
 								        </form>	                  
   										<?php endwhile;?>  													
@@ -164,7 +168,32 @@ if(isset($_POST['stop'])){
 			              		</div>
 
 	            				<div class="col-md-2 col-md-2">
-	            			Remaining Quantity <center><h4 id="price_quan" name="price_quan"><?php echo $_GET['quantity']; ?></h4></center>
+	            			Remaining Quantity <center><h4 id="price_quan" name="price_quan">
+
+                    <?php 
+                      $prod_id = $_GET["id"];
+                      if(isset($_POST['stop'])){
+
+                      $update_prod = "UPDATE prices SET quantity = quantity-1 WHERE id = $prod_id";
+                      $ups = sqlsrv_query($conn,$update_prod);
+
+                            $dp = "SELECT * FROM prices WHERE id = $prod_id";
+                           $sqls = sqlsrv_query($conn,$dp);
+                           $cout = sqlsrv_fetch_array($sqls);
+                           $qty = $cout["quantity"];
+                           echo $qty;
+                          }
+
+                          else {
+                            $dp = "SELECT * FROM prices WHERE id = $prod_id";
+                           $sqls = sqlsrv_query($conn,$dp);
+                           $cout = sqlsrv_fetch_array($sqls);
+                           $qty = $cout["quantity"];
+                           echo $qty;
+                          }
+                           ?>
+
+                    </h4></center>
 	            		</div>   
             	    <div class="col-md-6 col-lg-6"></div>         		
                 </div>
@@ -193,62 +222,76 @@ if(isset($_POST['stop'])){
 	                                    }                                      
 	                                    else if($row_count > 0)
 	                                    {
-	                                        if(!isset($_POST['start']) && !isset($_POST['stop']) ){
+	                                        if(!isset($_POST['start']) && !isset($_POST['stop'])){
+                                            $winner_name = "";
 	                                          echo ' <h3 class="col-sm-12"style="text-align: center" name="test" id="test">Choose Price then Click Start to Begin!</h3>';
 	                                        }else{
-	                                          if(isset($_POST['start']) && !isset($_POST['stop']) ){   
+	                                          if(isset($_POST['start']) && !isset($_POST['stop'])){   
 
 
-	                                             echo ' <h3 class="col-sm-2 col-xs-2 col-lg-12"style="text-align: center" name="choose" id="choose">Choosing user <span id="wait">.</span></h3>';  
+	                                             echo ' <h3 class="col-sm-12 col-xs-12 col-lg-12"style="text-align: center" name="choose" id="choose">Choosing user <span id="wait">.</span></h3>';  
 	                                           }else{                    
 	                                          
 	                                       }  	                                         
 	                                         if(isset($_POST['stop'])){
+
                                           $prod_id = $_GET["id"];
                                           $prod_name = $_GET["price_name"];
                                           $prod_quantity = $_GET["quantity"];  
 
-	                                        $rowCount = "SELECT COUNT(*)  as num FROM users ";            
-	                                        $quer = sqlsrv_query($conn,$rowCount);
-	                                        $total_count = sqlsrv_fetch_array($quer);           
-	                                        $total_rows = $total_count["num"];       
-	                                        $randnum =  (mt_rand(0,$total_rows - 1));
-	                                         // echo $randnum . "<br>" ;
-	                                        // echo $total_rows . "<br>";  
-	                                        $usery = $datas[$randnum];
-	                                          if($usery){
-	                                              $getUser = "SELECT * FROM users WHERE id = '$usery'";
-	                                              $qwery = sqlsrv_query($conn,$getUser);
-	                                              $fetch_user = sqlsrv_fetch_array($qwery);
-	                                              $bye_user = $fetch_user["id"];
-	                                               echo ' <center><h3 class="col-xs-12 col-sm-12 col-md-12 col-lg-12" name="winn" id="winn" style="color:black;">Congratulations! </h3>
-	                                             		<h2  class="col-sm-12"style="text-align: center" >
-	                                                       
-	                                                     '.$fetch_user["fname"].'
-	                                                     '.$fetch_user["lname"].'
-	                                                     </h2>'; 
-	                                               $get_User = "SELECT * FROM users WHERE id = '$bye_user'";
-	                                               $querr = sqlsrv_query($conn,$get_User);
-	                                               $get_row = sqlsrv_fetch_array($querr);
-	                                                     $id = $get_row['id'];
-	                                                     $fname = $get_row['fname'];
-	                                                     $lname = $get_row['lname'];
-	                                                     $date = date("Y-m-d H:i:s"); 
+                                        
+                                                $rowCount = "SELECT COUNT(*)  as num FROM users ";            
+                                          $quer = sqlsrv_query($conn,$rowCount);
+                                          $total_count = sqlsrv_fetch_array($quer);           
+                                          $total_rows = $total_count["num"];       
+                                          $randnum =  (mt_rand(0,$total_rows - 1));
+                                           // echo $randnum . "<br>" ;
+                                          // echo $total_rows . "<br>";  
+                                          $usery = $datas[$randnum];
+                                            if($usery){
+                                                $getUser = "SELECT * FROM users WHERE id = '$usery'";
+                                                $qwery = sqlsrv_query($conn,$getUser);
+                                                $fetch_user = sqlsrv_fetch_array($qwery);
+                                                $bye_user = $fetch_user["id"];
+                                                $winner_name = $fetch_user["fname"]. " " . $fetch_user["lname"];
+                                                 echo ' <center><h3 class="col-xs-12 col-sm-12 col-md-12 col-lg-12" name="winn" id="winn" style="color:black;">Congratulations! </h3>
+                                                  <h2  class="col-sm-12"style="text-align: center" >
+                                                       '.$winner_name.'
+                                                       </h2>'; 
+                                                 $get_User = "SELECT * FROM users WHERE id = '$bye_user'";
+                                                 $querr = sqlsrv_query($conn,$get_User);
+                                                 $get_row = sqlsrv_fetch_array($querr);
+                                                       $id = $get_row['id'];
+                                                       $fname = $get_row['fname'];
+                                                       $lname = $get_row['lname'];
+                                                       $date = date("Y-m-d H:i:s"); 
 
-	                                               $lipat_table = "INSERT INTO winner(id,fname,lname,date_time,prices) VALUES ('$id','$fname','$lname','$date','$prod_name')";    
-	                                               $lipattt = sqlsrv_query($conn,$lipat_table);
-	                                              
+                                                 $lipat_table = "INSERT INTO winner(id,fname,lname,date_time,prices) VALUES ('$id','$fname','$lname','$date','$prod_name')";    
+                                                 $lipattt = sqlsrv_query($conn,$lipat_table);
+                                                
                                                 $tanggal = "DELETE FROM users WHERE id = '$bye_user'";
                                                 $remove_user = sqlsrv_query($conn,$tanggal);
 
                                                 $sel_prices = "SELECT quantity FROM prices WHERE id = $prod_id";
                                                 $sqq = sqlsrv_query($conn,$sel_prices);
                                                 
-                                                  $update_prod = "UPDATE prices SET quantity = $prod_quantity-1 WHERE id = $prod_id";
-                                                  $ups = sqlsrv_query($conn,$update_prod);
+                                                // $update_prod = "UPDATE prices SET quantity = quantity-1 WHERE id = $prod_id";
+                                                // $ups = sqlsrv_query($conn,$update_prod);
 
-	                                                }  
-	                                            }                      
+                                                //  $dp = "SELECT * FROM prices WHERE id = $prod_id";
+                                                //  $sqls = sqlsrv_query($conn,$dp);
+                                                //  $cout = sqlsrv_fetch_array($sqls);
+                                                //  $qty = $cout["quantity"];
+
+                                                // echo '<script>window.location.href = "http://192.168.66.186/raffle/index.php?id='.$prod_id.'&price_name='.$prod_name.'&quantity='.$qty.'";</script>';
+
+                                                 // echo '<meta http-equiv="refresh" content="3600;http://192.168.66.186/raffle/index.php?id='.$prod_id.'&price_name='.$prod_name.'&quantity='.$qty.'"/>';
+
+                                                  }
+                                              }
+
+                                            
+
 	                                         }                              	                                  
 	                                    }
 	                                    else{
@@ -369,7 +412,7 @@ if(isset($_POST['stop'])){
                                       <button  class="btn btn-default" data-toggle="modal" data-target="#exModal'.$id.'"  title="Exchange Prize" name="exchange" id="exchange" >
                                    <i class="fa fa-exchange"></i>&nbsp;Exchange</button> 
                             </td>
-                            <td>'.$remarks.'</td>                                                       
+                            <td>'.$remarks.'</td>
                         </tr>
                         
                         <div class="container col-xs-4" style="color:black"> 
@@ -380,10 +423,17 @@ if(isset($_POST['stop'])){
                                     <h5 class="modal-title ">Exchange Prize </h5>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                   </div>
-                                    <form method="post" >
-                                      <div class="modal-body">            
+                                    <form method="post">
+                                      <div class="modal-body">
                                         <h6>Employee Name: '.$fname.'  '.$lname.' </h6><hr>
                                         <h6><center>Items to be Returned</center></h6>
+
+
+                                        <div id="res" name="res" ></div> 
+
+                                        <input type="hidden" name="perID" id="perID" value='.$id.'></input>
+
+
                                         <div class="row">
                                             <div class="col-md-5">
                                             <input class="form-control" type="hidden" id="prody1" name="prody1" value="'.$prize.'" ></input>
@@ -394,9 +444,9 @@ if(isset($_POST['stop'])){
                                                   </div>
                                                    <div class="col-md-5">'?>
 
-                                          Prize Lists<select name="viewPrices" id="viewPrices" class="form-control">                
+                                          Prize Lists<select name="viewPricesModal" id="viewPricesModal" class="form-control" >                
                             
-                                            <option selected disabled id="aw" name="aw" value="<?php echo $_GET["id"];?>"><?php echo $_GET['price_name']; ?></option>
+                                            <option selected disabled id="aw" name="aw" </option>
                                               <?php
                                             // SELECT PRICE AND INSERT INTO A DROPDOWN INPUT
                                           $dp = "SELECT * FROM prices WHERE quantity > 0";
@@ -405,27 +455,30 @@ if(isset($_POST['stop'])){
                                           }
 
                                           ?>
-                                        <form method="post">
-                                          <option id="droplist" name="droplist"  value="index.php?id=<?php echo $cout['id'];?>&price_name=<?php echo $cout['price_name'];?>&quantity=<?php echo $cout['quantity'];?>">
-                                          <?php echo $cout['price_name'];?></option>  
-                                        </form>                   
-                                      <?php endwhile;?>                           
-                                        </select>                                  
-                                                
 
-                                     <?php echo'                                                          
+                                        <!-- <form method="post"> -->
+                                          <option id="droplistModal" name="droplistModal"  value="<?php echo $cout['id'];?>">
+                                          <?php echo $cout['price_name'];?></option>  
+                                        <!-- </form>                    -->
+                                      <?php endwhile;?>                           
+                                        </select>                    
+
+                                     <?php echo'                                                            
                                             </div>
                                         </div>           
                                       </div>
                                       <div class="modal-footer">
-                                        <button  class="btn btn-success" id="exchange_prize" name="exchange_prize" value="submit">Exchange</button>
+                                        <button type="submit" class="btn btn-success" id="exchange_prize" name="exchange_prize" value="submit">Exchange
+                                        </button>
                                           <button  class="btn btn-default" data-dismiss="modal">Cancel</button>
                                       </div>
                                    </form>
+
                                 </div>
                               </div>
                             </div>
                           </div>
+
 
                            <div class="container col-xs-4" style="color:black"> 
                             <div class="modal fade" id="retModal'.$id.'" role="document">
@@ -438,18 +491,16 @@ if(isset($_POST['stop'])){
                                     <form method="post" >
                                       <div class="modal-body"> 
                                       <h6>Item to be Returned</h6>
-
-                                        <h6>Prize Name: '.$prize.'</h6><hr> 
-                                        
+                                        <h6>Prize Name: '.$prize.'</h6><hr>                                         
                                         <div class="row">
                                             <div class="col-md-12">    
-                                              <input type="hidden" value="'.$id.'" name="userAyd" id="userAyd">                                        
+                                              <input type="hidden" value="'.$id.'" name="userAyd" id="userAyd">               
                                                Remarks:&nbsp;<center><textarea class="form-control" type="text" id="remarks" name="remarks" rows="3" ></textarea></center>
-                                            </div>                                                                                      
+                                            </div>                                   
                                         </div>           
                                       </div>
-                                      <div class="modal-footer">
-                                        <button  class="btn btn-success" id="return_prize_btn" name="return_prize_btn" value="submit">Return</button>
+                                      <div class="modal-footer">                                    
+                                        <button class="btn btn-success" id="return_prize_btn" name="return_prize_btn" value="submit">Return</button>                                     
                                           <button  class="btn btn-default" data-dismiss="modal">Cancel</button>
                                       </div>
                                    </form>
@@ -478,33 +529,50 @@ if(isset($_POST['stop'])){
 </div>
 
 <?php
-if (isset($_POST['exchange_prize'])) {
-  $prize = ucwords($_POST['prody1']);
-  $ex_prize = ucwords($_POST['prod_price']);
 
-      $sqll="SELECT * FROM prices WHERE price_name = '$prize'";
-      $qwertys = sqlsrv_query($conn,$sqll);
-      $prize_fetch = sqlsrv_fetch_array($qwertys);
-      $raw = $prize_fetch['price_name'];      
+        include "connect.php";
+
+      if (isset($_POST['exchange_prize'])) {
+         
+        $perID = ucwords($_POST['perID']);
+        $ex_prize = ucwords($_POST['viewPricesModal']);
+
+        // echo '<script language="javascript">';
+        // echo 'alert('.$ex_prize.')';
+        // echo '</script>';
+
+        
+             $sqlx = "SELECT * FROM prices WHERE id ='$ex_prize'";
+            $sqlx_qwery = sqlsrv_query($conn,$sqlx);
+            $fetch_res = sqlsrv_fetch_array($sqlx_qwery);
+            $pname = $fetch_res['price_name'];
+
+            $sqlx1 = "SELECT * FROM winner WHERE id ='$id'";
+            $sqlx_qwery1 = sqlsrv_query($conn,$sqlx1);
+            $fetch_res1 = sqlsrv_fetch_array($sqlx_qwery1);
+            $pname1 = $fetch_res1['prices']; 
+
+
+              $update_prize = "UPDATE prices SET quantity = quantity - 1 WHERE price_name = '$pname'";
+              $up_query = sqlsrv_query($conn,$update_prize) or die (print_r( sqlsrv_errors(), true));
+
+              $add_prize ="UPDATE prices SET quantity = quantity + 1 WHERE price_name = '$pname1' ";
+              $addp_query = sqlsrv_query($conn,$add_prize);       
+
+              $update_winner_prize = "UPDATE winner SET prices = '$pname' WHERE id = '$id'";
+              $uwp = sqlsrv_query($conn,$update_winner_prize) or die(print_r( sqlsrv_errors(), true));
+
+              echo '<script language="javascript">';
+              echo 'alert("Item Exchanged!")';
+              echo '</script>';
+
+               echo '<script>window.location.href = "http://192.168.66.186/raffle/index.php";</script>';
           
-          // if ($raw == $prize) {
-            $update_prize = "UPDATE prices SET quantity = quantity+1 WHERE price_name = '$raw'";
-            $up_query = sqlsrv_query($conn,$update_prize);
-          // }else{
-          //     $one = 1;
-          //    $insert_new_prize = "INSERT INTO prices (price_name,quantity) VALUES ('$product','$one') ";
-          //    $inp = sqlsrv_query($conn, $insert_new_prize);       // }      
+                
 
-          $update_winner_prize = "UPDATE winner SET prices = '$ex_prize' WHERE id = '$id'";
-          $uwp = sqlsrv_query($conn,$update_winner_prize);
-
-          echo '<script language="javascript">';
-          echo 'alert("Item Exchanged!")';
-          echo '</script>';        
-          echo '<script>window.location.href = "http://192.168.66.186/raffle/index.php";</script>';
-
-
+         
 }
+
 ?>
 
 <?php
@@ -645,6 +713,34 @@ $( document ).ready(function() {
      e.preventDefault();
     });
 });
+
+// if($("#viewPrices").change(function(){}); ){
+
+
+// }
+
+
+
+
+
+
+
+
+
+
+// $('select[id="viewPricesModal"]').on('change', function() {
+//   var x = this.value;
+
+//     $.ajax({
+//         url: "dropdownValues.php",
+//         method: "POST",
+//         data: {"x":x},
+//         success:function(data){      
+//         // alert(data);
+//          $('#test').html(data);
+//         }            
+//     });
+// });
 
 
 

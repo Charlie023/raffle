@@ -90,16 +90,16 @@
 
 			$this->SetLineWidth(.7);
 			$this->SetDrawColor(10,11,10);
-			$this->Rect(12, 45, 192, 190, 'C');
+			// $this->Rect(12, 45, 192, 190, 'C');
 
 			$this->SetFont('Arial', 'B', 12);
-            $this->Cell(190,5,'PRIZE LIST SUMMARY',5,0,'C');
+            $this->Cell(190,5,'WINNERS LIST SUMMARY',5,0,'C');
 			$this->Ln(10);
 
 			$this->SetFont('Arial', 'B', 10);
 
 			//Column widths
-			$w1 = array(20,40,200,'B','F');
+			$w1 = array(50,40,20,40,30,'B','F');
 
 			//Header
 			for($i = 0; $i < count($header); $i++)
@@ -112,9 +112,11 @@
 			foreach($data1 as $eachResult1) 
 			{
 			
-				$this->Cell(20, 5, $eachResult1["id"], 0, 0, 'C');
-				$this->Cell(40, 5, $eachResult1["price_name"], 0, 0, 'C');
-				$this->Cell(200, 5, $eachResult1["quantity"], 0, 0, 'C');
+				$this->Cell(50, 5, $eachResult1["date_time"], 0, 0, 'C');
+				$this->Cell(40, 5, $eachResult1["fname"], 0, 0, 'C');
+				$this->Cell(20, 5, $eachResult1["lname"], 0, 0, 'C');
+				$this->Cell(40, 5, $eachResult1["prices"], 0, 0, 'C');
+				$this->Cell(30, 5, $eachResult1["remarks"], 0, 0, 'C');
 				
 				$this->Ln(6);
 			}
@@ -138,7 +140,7 @@
 
 	//Column titles
 
-	$header = array('Id','Prize Name','Quantity');
+	$header = array('Win Date/Time','Name','Surname','Prize','Remarks');
 	
 	include('connect.php');
 						  
@@ -162,7 +164,7 @@
 	// }
 
 	//second statement for transactions
-	$sql1 = "SELECT * FROM prices WHERE quantity > 0";
+	$sql1 = "SELECT * FROM winner ORDER BY date_time DESC";
 
 	$params = array();
 	$options =  array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
