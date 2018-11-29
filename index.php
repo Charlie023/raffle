@@ -118,7 +118,7 @@ if(isset($_POST['stop'])){
   </nav>
 
 <div  style="margin: 20px;color:green;margin-top: 30px;">
-  <div class="container" >
+  <div class="container" id="bod" name="bod" >
       <div class="jumbotron ">
       <h2>Raffle System</h2><hr>
         <form method="POST" id="registerForm">
@@ -181,6 +181,7 @@ if(isset($_POST['stop'])){
                            $sqls = sqlsrv_query($conn,$dp);
                            $cout = sqlsrv_fetch_array($sqls);
                            $qty = $cout["quantity"];
+                           $qty_id = $cout["id"];
                            echo $qty;
                           }
 
@@ -189,6 +190,7 @@ if(isset($_POST['stop'])){
                            $sqls = sqlsrv_query($conn,$dp);
                            $cout = sqlsrv_fetch_array($sqls);
                            $qty = $cout["quantity"];
+                            $qty_id = $cout["id"];
                            echo $qty;
                           }
                            ?>
@@ -226,10 +228,30 @@ if(isset($_POST['stop'])){
                                             $winner_name = "";
 	                                          echo ' <h3 class="col-sm-12"style="text-align: center" name="test" id="test">Choose Price then Click Start to Begin!</h3>';
 	                                        }else{
-	                                          if(isset($_POST['start']) && !isset($_POST['stop'])){   
+	                                          if(isset($_POST['start']) && !isset($_POST['stop'])){ 
+
+                                                $sel_qty = "SELECT * from prices WHERE id = '$qty_id'";
+                                                $qtyqwer = sqlsrv_query($conn,$sel_qty);
+                                                $qt = sqlsrv_fetch_array($qtyqwer);
+                                                    $qtn = $qt['price_name'];
+                                                  $qtt = $qt['quantity'];
 
 
-	                                             echo ' <h3 class="col-sm-12 col-xs-12 col-lg-12"style="text-align: center" name="choose" id="choose">Choosing user <span id="wait">.</span></h3>';  
+                                                if ($qtt == 0) {
+                                                    echo '<script language="javascript">';
+                                                    echo 'alert("No '.$qtn.' left. Select another item!")';
+                                                    echo '</script>';
+                                                    echo ' <h3 class="col-sm-12 col-xs-12 col-lg-12"style="text-align: center" name="choose" id="choose">Select Another Item!</h3>';  
+
+                                                  }  else{
+
+                                                   echo ' <h3 class="col-sm-12 col-xs-12 col-lg-12"style="text-align: center" name="choose" id="choose">Choosing user <span id="wait">.</span></h3>';  
+                                                  }
+
+                                                
+
+
+
 	                                           }else{                    
 	                                          
 	                                       }  	                                         
@@ -529,19 +551,12 @@ if(isset($_POST['stop'])){
 </div>
 
 <?php
-
-        include "connect.php";
-
+include "connect.php";
       if (isset($_POST['exchange_prize'])) {
          
         $perID = ucwords($_POST['perID']);
         $ex_prize = ucwords($_POST['viewPricesModal']);
-
-        // echo '<script language="javascript">';
-        // echo 'alert('.$ex_prize.')';
-        // echo '</script>';
-
-        
+       
              $sqlx = "SELECT * FROM prices WHERE id ='$ex_prize'";
             $sqlx_qwery = sqlsrv_query($conn,$sqlx);
             $fetch_res = sqlsrv_fetch_array($sqlx_qwery);
@@ -552,24 +567,20 @@ if(isset($_POST['stop'])){
             $fetch_res1 = sqlsrv_fetch_array($sqlx_qwery1);
             $pname1 = $fetch_res1['prices']; 
 
-
               $update_prize = "UPDATE prices SET quantity = quantity - 1 WHERE price_name = '$pname'";
               $up_query = sqlsrv_query($conn,$update_prize) or die (print_r( sqlsrv_errors(), true));
-
               $add_prize ="UPDATE prices SET quantity = quantity + 1 WHERE price_name = '$pname1' ";
-              $addp_query = sqlsrv_query($conn,$add_prize);       
+              $addp_query = sqlsrv_query($conn,$add_prize);    
 
-              $update_winner_prize = "UPDATE winner SET prices = '$pname' WHERE id = '$id'";
+              $update_winner_prize = "UPDATE winner SET prices = '$pname' WHERE id = ' $perID'";
               $uwp = sqlsrv_query($conn,$update_winner_prize) or die(print_r( sqlsrv_errors(), true));
+              
 
               echo '<script language="javascript">';
               echo 'alert("Item Exchanged!")';
               echo '</script>';
-
+              
                echo '<script>window.location.href = "http://192.168.66.186/raffle/index.php";</script>';
-          
-                
-
          
 }
 
@@ -622,11 +633,12 @@ if ($insert_remark_query) {
         </div>
           <form method="post">
 		        <div class="modal-body">
+            <div id="rres" name="rres"></div>
 		        Product Name:&nbsp;<input class="form-control" type="text" id="product" name="product" required></input>
 		        Quantity:&nbsp;<input class="form-control" type="number" id="quan" name="quan" min="0" required></input>
 		        </div>
 		        <div class="modal-footer">
-		        	<button  class="btn btn-success" id="add_prize" name="add_prize" value="submit" >Add</button>
+		        	<button  class="btn btn-success" id="addPrize" name="addPrize" value="submit" >Add</button>
 		          	<button  class="btn btn-default" data-dismiss="modal">Close</button>
 		        </div>
          </form>
@@ -635,6 +647,24 @@ if ($insert_remark_query) {
   </div>
 </div>
 
+<script type="text/javascript">
+  // $(document).ready(function(){
+  //   $("#addPrize").click(function(){
+  //     var pro_prize = $("#product").val();
+  //     var prize_quantity = $("#quan").val();
+
+  //       $.ajax({
+  //           url:"add_pmodal.php",
+  //           method: "POST",
+  //           data: {pro_prize:pro_prize,prize_quantity:prize_quantity},
+  //           success:function(data){
+  //             $("#rres").html(data);
+  //           }
+  //       });
+  //   });
+  // });
+
+</script>
 
 
 
@@ -643,7 +673,7 @@ if ($insert_remark_query) {
 
 <?php
 
-if(isset($_POST["add_prize"])){
+if(isset($_POST["addPrize"])){
   
   $product = ucwords($_POST["product"]);  
   $quantity = $_POST["quan"];
@@ -714,12 +744,14 @@ $( document ).ready(function() {
     });
 });
 
-// if($("#viewPrices").change(function(){}); ){
 
+// $( document ).ready(function() {
+//      $('#bod').on('click', function(e) {
+//      $('.side-nav').toggleClass("close");
 
-// }
-
-
+//      e.preventDefault();
+//     });
+// });
 
 
 
