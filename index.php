@@ -106,12 +106,12 @@ if(isset($_POST['stop'])){
 	           	 	<a href="" id="addPrice" name="addPrice" style="width: 100%" data-toggle="modal" data-target="#myModal"> 
 	            		<i class="fa fa-plus-circle"></i> Add Prize                   
 	           		 </a>   
-               <!--    <a href="prizelistpdf.php" id="view_prize_list" name="view_prize_list" style="width: 100%" target="_blank"> 
-                    <i class="fa fa-eye"></i> View Prize List Table                  
+                  <a href="manageprize.php" id="manage_prize" name="manage_prize" style="width: 100%" target="_self"> 
+                    <i class="fa fa-list"></i> Manage Prizes                 
                  </a>  
-                 <a href="winnerslistpdf.php" id="view_prize_list" name="view_prize_list" style="width: 100%" target="_blank"> 
+                 <!-- <a href="winnerslistpdf.php" id="view_prize_list" name="view_prize_list" style="width: 100%" target="_blank"> 
                     <i class="fa fa-eye"></i> View Winners List Table                  
-                 </a> -->                 
+                 </a>   -->               
 	          </li>         
 	        </ul>
 	   </div>
@@ -398,7 +398,7 @@ if(isset($_POST['stop'])){
               <h2>Winners History Log</h2><hr>
             </div>
              <div class="col-md-2">
-                <button class="btn btn-success  " name="view_history" id="view_history" style="float: right;" ><i class="fa fa-print"></i> Print to PDF</button></hr>
+                <a href="winnerslistpdf.php" class="btn btn-success  " name="view_history" id="view_history" target="_blank" style="float: right;" ><i class="fa fa-print"></i> Print to PDF</a></hr>
              </div>
             
 
