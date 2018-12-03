@@ -40,6 +40,7 @@ if(isset($_POST['stop'])){
 
 <html>
 <head>
+  <link rel="Raffle Icon" href="images/qwe.ico"/>
   <title>Nexus | Raffle </title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -153,7 +154,7 @@ if(isset($_POST['stop'])){
                             <option selected disabled id="aw" name="aw" value="<?php echo $_GET["id"];?>"><?php echo $_GET['price_name']; ?></option>
 					                  	<?php
 								          	// SELECT PRICE AND INSERT INTO A DROPDOWN INPUT
-								          $dp = "SELECT * FROM prices WHERE quantity > 0";
+								          $dp = "SELECT * FROM prices WHERE quantity > 0 ORDER BY id DESC";
 								          $sqls = sqlsrv_query($conn,$dp);
 								          while ($cout = sqlsrv_fetch_array($sqls)): {								          
 								          }
@@ -245,7 +246,7 @@ if(isset($_POST['stop'])){
 
                                                   }  else{
 
-                                                   echo ' <h3 class="col-sm-12 col-xs-12 col-lg-12"style="text-align: center" name="choose" id="choose">Choosing user <span id="wait">.</span></h3>';  
+                                                   echo ' <h3 class="col-sm-12 col-xs-12 col-lg-12"style="text-align: center" name="choose" id="choose">Choosing winner <span id="wait">.</span></h3>';  
                                                   }                                               
 
 
@@ -284,7 +285,7 @@ if(isset($_POST['stop'])){
                                                        $id = $get_row['id'];
                                                        $fname = $get_row['fname'];
                                                        $lname = $get_row['lname'];
-                                                       $date = date("Y-m-d H:i:s"); 
+                                                       $date = date("m/d/y h:i:s A") ; 
 
                                                  $lipat_table = "INSERT INTO winner(id,fname,lname,date_time,prices) VALUES ('$id','$fname','$lname','$date','$prod_name')";    
                                                  $lipattt = sqlsrv_query($conn,$lipat_table);
@@ -294,6 +295,8 @@ if(isset($_POST['stop'])){
 
                                                 $sel_prices = "SELECT quantity FROM prices WHERE id = $prod_id";
                                                 $sqq = sqlsrv_query($conn,$sel_prices);
+
+                                                
                                                 
                                                 // $update_prod = "UPDATE prices SET quantity = quantity-1 WHERE id = $prod_id";
                                                 // $ups = sqlsrv_query($conn,$update_prod);
@@ -479,7 +482,7 @@ if(isset($_POST['stop'])){
                                             <option selected disabled id="aw" name="aw" </option>
                                               <?php
                                             // SELECT PRICE AND INSERT INTO A DROPDOWN INPUT
-                                          $dp = "SELECT * FROM prices WHERE quantity > 0";
+                                          $dp = "SELECT * FROM prices WHERE quantity > 0 ORDER BY id DESC";
                                           $sqls = sqlsrv_query($conn,$dp);
                                           while ($cout = sqlsrv_fetch_array($sqls)): {                          
                                           }
@@ -721,7 +724,11 @@ if(isset($_POST["addPrize"])){
 <script type="text/javascript">
   // data tables java script
 	    $(document).ready( function () {
-	    $('#myTable').DataTable();
+	    $('#myTable').DataTable({
+        "order": [[ 0, "desc" ]],
+         "pageLength": 100
+
+      });
 
 	} );
 

@@ -1,7 +1,8 @@
 <html>
 
 <head>
-	<title>PDF</title>
+ <link rel="Raffle Icon" href="images/qwe.ico"/>
+	<title>Prize List PDF</title>
 </head>
 
 <body>
