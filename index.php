@@ -91,31 +91,28 @@ if(isset($_POST['stop'])){
 <body>
 
  <nav class="navbar header-top sticky-top navbar-expand-lg  navbar-light bg-light" >
-      <span class="navbar-toggler-icon leftmenutrigger"></span>
+      
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:green">
+         <i class="fa fa-bars"></i>
+        </a>
+
       	<a class="navbar-brand" href="#"><img src="images/nexuslogo.png" style="width: 40px; height: 40px;padding: 0px; margin: 0px;"></a>
      	 <a class="navbar-brand" id="comp_name" name="comp_name"> Nexus Technologies, Inc.</a>
-     	 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
+     	 <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
         	aria-expanded="false" aria-label="Toggle navigation">
         	<span class="navbar-toggler-icon" ></span> </button>	      	
-         
-          <div class="collapse navbar-collapse" id="navbarText" name="navbarText" >
-	        	<ul class="navbar-nav animate side-nav ">         
-	          	<li class="nav-item">
-	           		<a  href="" id="addUser" name="addUser" style="width: 100%"> 
-	           		 	<i class="fa fa-plus-circle"></i> Add User                   
-	           		</a>
-	           	 	<!-- <a href="" id="addPrice" name="addPrice" style="width: 100%" data-toggle="modal" data-target="#myModal"> 
-	            		<i class="fa fa-plus-circle"></i> Add Prize                   
-	           		 </a>   --> 
-                  <a href="manageprize.php" id="manage_prize" name="manage_prize" style="width: 100%" target="_self"> 
+          -->
+
+         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="" id="addUser" name="addUser" style="width: 100%"> 
+                  <i class="fa fa-plus-circle"></i> Add User                   
+                </a>               
+                <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="manageprize.php" id="manage_prize" name="manage_prize" style="width: 100%" target="_self"> 
                     <i class="fa fa-table"></i> Manage Prizes                 
-                 </a>  
-                 <!-- <a href="winnerslistpdf.php" id="view_prize_list" name="view_prize_list" style="width: 100%" target="_blank"> 
-                    <i class="fa fa-eye"></i> View Winners List Table                  
-                 </a>   -->               
-	          </li>         
-	        </ul>
-	   </div>
+                 </a>
+          
+        </div>        
   </nav>
 
 <div  style="margin: 20px;color:green;margin-top: 30px;">
@@ -242,7 +239,7 @@ if(isset($_POST['stop'])){
                                                     echo '<script language="javascript">';
                                                     echo 'alert("No '.$qtn.' left. Select another item!")';
                                                     echo '</script>';
-                                                    echo ' <h3 class="col-sm-12 col-xs-12 col-lg-12"style="text-align: center" name="choose" id="choose">Select Another Item!</h3>';  
+                                                    echo ' <h3 class="col-sm-12 col-xs-12 col-lg-12"style="text-align: center" name="choose" id="choose">Select Item!</h3>';  
 
                                                   }  else{
 
@@ -296,7 +293,7 @@ if(isset($_POST['stop'])){
                                                 $sel_prices = "SELECT quantity FROM prices WHERE id = $prod_id";
                                                 $sqq = sqlsrv_query($conn,$sel_prices);
 
-                                                
+
                                                 
                                                 // $update_prod = "UPDATE prices SET quantity = quantity-1 WHERE id = $prod_id";
                                                 // $ups = sqlsrv_query($conn,$update_prod);
