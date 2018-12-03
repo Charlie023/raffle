@@ -46,6 +46,9 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap.min.js"></script>
+
 </head>
 
 
@@ -55,28 +58,10 @@
      <!--  <a href="index.php" style="margin-right: 10px;"><span class="glyphicon glyphicon-home" ></span></a> -->
       	<a class="navbar-brand" href="index.php"><img src="images/nexuslogo.png" style="width: 40px; height: 40px;padding: 0px; margin: 0px;"></a>
      	 <a  href="index.php" class="navbar-brand" id="comp_name" name="comp_name"> Nexus Technologies, Inc.</a>
-     	 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
-        	aria-expanded="false" aria-label="Toggle navigation">
-        	<span class="navbar-toggler-icon" ></span> </button>	      	
+     	 <a  href="index.php" class="navbar-brand" id="home" name="home"><i class="fa fa-home"></i></a>
+              	
          
-          <div class="collapse navbar-collapse" id="navbarText" name="navbarText" >
-	        	<ul class="navbar-nav animate side-nav ">         
-	          	<li class="nav-item">
-	           		<a  href="" id="addUser" name="addUser" style="width: 100%"> 
-	           		 	<i class="fa fa-plus-circle"></i> Add User                   
-	           		</a>
-	           	 	<a href="" id="addPrice" name="addPrice" style="width: 100%" data-toggle="modal" data-target="#myModal"> 
-	            		<i class="fa fa-plus-circle"></i> Add Prize                   
-	           		 </a>   
-                  <a href="prizelistpdf.php" id="view_prize_list" name="view_prize_list" style="width: 100%" target="_blank"> 
-                    <i class="fa fa-list"></i> Manage Prizes                 
-                 </a>  
-                 <!-- <a href="winnerslistpdf.php" id="view_prize_list" name="view_prize_list" style="width: 100%" target="_blank"> 
-                    <i class="fa fa-eye"></i> View Winners List Table                  
-                 </a>   -->               
-	          </li>         
-	        </ul>
-	   </div>
+         
   </nav>
  
 
@@ -91,13 +76,13 @@
             </div>
 <div class="row">
 
-            <div class="col-md-2 col-sm-6">
-                <a href="winnerslistpdf.php" class="btn btn-success" name="addp" id="addp" target="_blank" data-toggle="modal" data-target="#myModal" style="float: right;" ><i class="fa fa-plus"></i> Add Prize</a></hr>
+            <div class="col-md-2 col-sm-12 col-xs-12">
+                <a href="winnerslistpdf.php" class="btn btn-success" name="addp" id="addp" data-toggle="modal" data-target="#myModal" style="float: right;" ><i class="fa fa-plus"></i> Add Prize</a></hr>
              </div>
              
 
-             <div class="col-md-10 col-sm-6 ">
-                <a href="prizelistpdf.php" class="btn btn-success  " name="view_history" id="view_history" target="_blank" style="float: right;" ><i class="fa fa-print"></i> Print to PDF</a></hr>
+             <div class="col-md-10 col-sm-12 col-xs-12 ">
+                <a   href="prizelistpdf.php" class="btn btn-success  " name="view_history" id="view_history" target="_blank" style="float: right;" ><i class="fa fa-print"></i> Print to PDF</a></hr>
              </div>
              
             
@@ -136,13 +121,37 @@
                           <td>'.$quan.'</td>                         
                          
                           <td class="td-actions " style="width:10%;" >                                                    
-                                   <form method="POST">  
+                                    
                                      <input type="hidden" value="'.$id.'" name="userID" id="userID">                                                                      
-                                      <button type="submit" class="btn btn-default" title="Delete Prizes" name="delete" id="delete">
+                                      <button type="submit" class="btn btn-default" data-toggle="modal" data-target="#delModal'.$id.'" title="Delete Prizes" name="delete" id="delete">
                                       <i class="fa fa-trash-o"></i>&nbsp;Delete 
-                                      </button>                                                                                                     
-                                    </form>  
-                            </td>                        
+                                      </button>                                                                                                      
+                            </td>       
+
+                            <div class="container col-xs-4"> 
+                                <div class="modal fade" id="delModal'.$id.'" role="dialog" name="delModal'.$id.'">
+                                  <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                      <div class="modal-header">          
+                                        <h5 style="color:black" class="modal-title">Are you sure you want to Delete '.$pname.'? </h5>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      </div>
+                                        <form method="post">
+                                          <div class="modal-body">
+                                          <div class="row text-center">
+                                          <input id="dd" name="dd" type="hidden" value="'.$id.'"></input>
+                                          <div class="col-md-6 col-lg-6 ">
+                                            <button  class="btn btn-success " id="confirm" name="confirm" value="submit" ><i class="fa fa-check"></i> Confirm</button>
+                                            </div>
+                                            <div class="col-md-6 col-lg-6 col-xs-6 col-sm-6">
+                                              <button  class="btn btn-danger " data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button>
+                                              </div>
+                                          </div>
+                                       </form>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>                 
 ';
                           } 
 					              ?>				
@@ -168,7 +177,7 @@
 
 <!-- add prize modal -->
 <div class="container col-xs-4"> 
-  <div class="modal fade" id="myModal" role="dialog">
+  <div class="modal fade" id="myModal" role="dialog" name="myModal">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">          
@@ -190,6 +199,8 @@
     </div>
   </div>
 </div>
+
+
 
 
 <?php
@@ -226,8 +237,8 @@ if(isset($_POST["addPrize"])){
 
 // delete button function
 
-if(isset($_POST["delete"])) {
-  $idy = $_POST['userID'];
+if(isset($_POST["confirm"])) {
+  $idy = $_POST['dd'];
   $bye_prize = "DELETE FROM prices WHERE id = '$idy'";
   $bp_query = sqlsrv_query($conn,$bye_prize);
 
@@ -259,6 +270,12 @@ else{
 	    $('#myTable').DataTable();
 
 	} );
+
+
+//       Mousetrap.bind('a', function(e) {
+//         // alert("gg");
+//        $("#addp").click();
+// });
   </script>
 
 

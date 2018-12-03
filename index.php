@@ -103,11 +103,11 @@ if(isset($_POST['stop'])){
 	           		<a  href="" id="addUser" name="addUser" style="width: 100%"> 
 	           		 	<i class="fa fa-plus-circle"></i> Add User                   
 	           		</a>
-	           	 	<a href="" id="addPrice" name="addPrice" style="width: 100%" data-toggle="modal" data-target="#myModal"> 
+	           	 	<!-- <a href="" id="addPrice" name="addPrice" style="width: 100%" data-toggle="modal" data-target="#myModal"> 
 	            		<i class="fa fa-plus-circle"></i> Add Prize                   
-	           		 </a>   
-                  <a href="manageprize.php" id="manage_prize" name="manage_prize" style="width: 100%" target="_self"> 
-                    <i class="fa fa-list"></i> Manage Prizes                 
+	           		 </a>   --> 
+                  <a href="manageprize.php" id="manage_prize" name="manage_prize" style="width: 100%" target="_blank"> 
+                    <i class="fa fa-table"></i> Manage Prizes                 
                  </a>  
                  <!-- <a href="winnerslistpdf.php" id="view_prize_list" name="view_prize_list" style="width: 100%" target="_blank"> 
                     <i class="fa fa-eye"></i> View Winners List Table                  
@@ -461,7 +461,7 @@ if(isset($_POST['stop'])){
 
                                         <div id="res" name="res" ></div> 
 
-                                        <input type="hidden" name="perID" id="perID" value='.$id.'></input>
+                                        <input type="hidden" name="winner_id" id="winner_id" value='.$id.'></input>
 
 
                                         <div class="row">
@@ -474,7 +474,7 @@ if(isset($_POST['stop'])){
                                                   </div>
                                                    <div class="col-md-5">'?>
 
-                                          Prize Lists<select name="viewPricesModal" id="viewPricesModal" class="form-control" >                
+                                          Prize Lists<select name="price_list_items" id="price_list_items" class="form-control" >                
                             
                                             <option selected disabled id="aw" name="aw" </option>
                                               <?php
@@ -509,6 +509,7 @@ if(isset($_POST['stop'])){
                             </div>
                           </div>
 
+                          
 
                            <div class="container col-xs-4" style="color:black"> 
                             <div class="modal fade" id="retModal'.$id.'" role="document">
@@ -562,26 +563,31 @@ if(isset($_POST['stop'])){
 include "connect.php";
       if (isset($_POST['exchange_prize'])) {
          
-        $perID = ucwords($_POST['perID']);
-        $ex_prize = ucwords($_POST['viewPricesModal']);
-       
-             $sqlx = "SELECT * FROM prices WHERE id ='$ex_prize'";
-            $sqlx_qwery = sqlsrv_query($conn,$sqlx);
-            $fetch_res = sqlsrv_fetch_array($sqlx_qwery);
-            $pname = $fetch_res['price_name'];
+        $winner_id = ucwords($_POST['winner_id']);
+        $price_list_items = ucwords($_POST['price_list_items']);
 
-            $sqlx1 = "SELECT * FROM winner WHERE id ='$id'";
+            $sqlx1 = "SELECT * FROM winner WHERE id ='$winner_id'";
             $sqlx_qwery1 = sqlsrv_query($conn,$sqlx1);
             $fetch_res1 = sqlsrv_fetch_array($sqlx_qwery1);
-            $pname1 = $fetch_res1['prices']; 
+            $winner_price_name = $fetch_res1['prices']; //select the winners prize
 
-              $update_prize = "UPDATE prices SET quantity = quantity - 1 WHERE price_name = '$pname'";
+       
+            $sqlx = "SELECT * FROM prices WHERE id ='$price_list_items'";
+            $sqlx_qwery = sqlsrv_query($conn,$sqlx);
+            $fetch_res = sqlsrv_fetch_array($sqlx_qwery);
+            $price_tobe_exchange = $fetch_res['price_name']; //price to be exchanged
+
+            
+
+              $update_prize = "UPDATE prices SET quantity = quantity - 1 WHERE price_name = '$price_tobe_exchange'";
               $up_query = sqlsrv_query($conn,$update_prize) or die (print_r( sqlsrv_errors(), true));
-              $add_prize ="UPDATE prices SET quantity = quantity + 1 WHERE price_name = '$pname1' ";
+
+              $add_prize ="UPDATE prices SET quantity = quantity + 1 WHERE price_name = '$winner_price_name' ";
               $addp_query = sqlsrv_query($conn,$add_prize);    
 
-              $rem = $pname1. " exchanged with " .$pname;
-              $update_winner_prize = "UPDATE winner SET prices = '$pname',remarks = '$rem' WHERE id = ' $perID'";
+              $rem = $winner_price_name. " exchanged with " .$price_tobe_exchange;
+              $update_winner_prize = "UPDATE winner SET prices = '$price_tobe_exchange',remarks = '$rem' WHERE id = ' $winner_id'";
+
               $uwp = sqlsrv_query($conn,$update_winner_prize) or die(print_r( sqlsrv_errors(), true));
               
 
@@ -767,21 +773,6 @@ $( document ).ready(function() {
 
 
 
-
-
-// $('select[id="viewPricesModal"]').on('change', function() {
-//   var x = this.value;
-
-//     $.ajax({
-//         url: "dropdownValues.php",
-//         method: "POST",
-//         data: {"x":x},
-//         success:function(data){      
-//         // alert(data);
-//          $('#test').html(data);
-//         }            
-//     });
-// });
 
 
 
