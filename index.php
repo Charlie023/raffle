@@ -106,7 +106,7 @@ if(isset($_POST['stop'])){
 	           	 	<!-- <a href="" id="addPrice" name="addPrice" style="width: 100%" data-toggle="modal" data-target="#myModal"> 
 	            		<i class="fa fa-plus-circle"></i> Add Prize                   
 	           		 </a>   --> 
-                  <a href="manageprize.php" id="manage_prize" name="manage_prize" style="width: 100%" target="_blank"> 
+                  <a href="manageprize.php" id="manage_prize" name="manage_prize" style="width: 100%" target="_self"> 
                     <i class="fa fa-table"></i> Manage Prizes                 
                  </a>  
                  <!-- <a href="winnerslistpdf.php" id="view_prize_list" name="view_prize_list" style="width: 100%" target="_blank"> 

@@ -58,7 +58,8 @@
      <!--  <a href="index.php" style="margin-right: 10px;"><span class="glyphicon glyphicon-home" ></span></a> -->
       	<a class="navbar-brand" href="index.php"><img src="images/nexuslogo.png" style="width: 40px; height: 40px;padding: 0px; margin: 0px;"></a>
      	 <a  href="index.php" class="navbar-brand" id="comp_name" name="comp_name"> Nexus Technologies, Inc.</a>
-     	 <a  href="index.php" class="navbar-brand" id="home" name="home"><i class="fa fa-home"></i></a>
+
+     	 <a  style="color:#2225" href="index.php" class="navbar-brand" id="homey" name="homey" title="Return Home"><i class="fa fa-home" id="homey" name="homey"></i></a>
               	
          
          
