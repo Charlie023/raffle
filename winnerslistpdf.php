@@ -99,24 +99,23 @@
 			$this->SetFont('Arial', 'B', 10);
 
 			//Column widths
-			$w1 = array(50,40,20,40,30,'B','F');
+			$w1 = array(40,40,20,60,'B','F');
 
 			//Header
 			for($i = 0; $i < count($header); $i++)
 				$this->Cell($w1[$i], 10, $header[$i], 0, 0, 'C');
 				$this->Ln();
 
-			$this->SetFont('Arial', '', 10);
+			$this->SetFont('Arial', '', 8);
 
 			//Data
 			foreach($data1 as $eachResult1) 
 			{
 			
-				$this->Cell(50, 5, $eachResult1["date_time"], 0, 0, 'C');
-				$this->Cell(40, 5, $eachResult1["fname"], 0, 0, 'C');
-				$this->Cell(20, 5, $eachResult1["lname"], 0, 0, 'C');
-				$this->Cell(40, 5, $eachResult1["prices"], 0, 0, 'C');
-				$this->Cell(30, 5, $eachResult1["remarks"], 0, 0, 'C');
+				$this->Cell(40, 5, $eachResult1["date_time"], 0, 0, 'L');
+				$this->Cell(40, 5, $eachResult1["fname"] ." ". $eachResult1["lname"], 0, 0, 'L');				
+				$this->Cell(40, 5, $eachResult1["prices"], 0, 0, 'L');
+				$this->Cell(50, 5, $eachResult1["remarks"], 0, 0, 'L');
 				
 				$this->Ln(6);
 			}
@@ -140,7 +139,7 @@
 
 	//Column titles
 
-	$header = array('Win Date/Time','Name','Surname','Prize','Remarks');
+	$header = array('Win Date/Time','Employee Name','Prize','Remarks');
 	
 	include('connect.php');
 						  
