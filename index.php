@@ -147,7 +147,7 @@ if(isset($_POST['stop'])){
                 <div class="col-md-4 col-lg-4">
                   Prize Lists<select name="viewPrices" id="viewPrices" class="form-control" onChange="window.open(this.options[this.selectedIndex].value,'_top')">                
                             
-                            <option selected disabled id="aw" name="aw" value="<?php echo $_GET["id"];?>"><?php echo $_GET['price_name']; ?></option>
+                            <option selected disabled hidden id="aw" name="aw" value="<?php echo $_GET["id"];?>"><?php echo $_GET['price_name']; ?></option>
                               <?php
                             // SELECT PRICE AND INSERT INTO A DROPDOWN INPUT
                           $dp = "SELECT * FROM prices WHERE quantity > 0 ORDER BY id ASC";
@@ -445,7 +445,7 @@ if(isset($_POST['stop'])){
 
                                           Prize Lists<select name="price_list_items" id="price_list_items" class="form-control" >                
                             
-                                            <option selected disabled id="aw" name="aw" </option>
+                                            <option selected disabled hidden id="aw" name="aw"> </option>
                                               <?php
                                             // SELECT PRICE AND INSERT INTO A DROPDOWN INPUT
                                           $dp = "SELECT * FROM prices WHERE quantity > 0 ORDER BY id ASC";
